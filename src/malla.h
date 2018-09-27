@@ -97,7 +97,7 @@ class ObjRevolucion : public ObjMallaIndexada
       ObjRevolucion( const std::string & nombre_ply_perfil );
 
    protected:
-      crear(const std::vector<Tupla3f> & perfil_original, const int num_instancias_perf);
+      void crear(const std::vector<Tupla3f> & perfil_original, const int num_instancias_perf);
 } ;
 
 #endif
