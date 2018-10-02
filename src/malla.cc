@@ -2,6 +2,8 @@
 #include "ply_reader.h"
 #include "malla.h"
 
+// Alumno: Vladislav Nikolov Vasilev
+
 // *****************************************************************************
 //
 // Clase ObjMallaIndexada

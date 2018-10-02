@@ -8,6 +8,8 @@
 // constructor de la escena (no puede usar ordenes de OpenGL)
 //**************************************************************************
 
+// Alumno: Vladislav Nikolov Vasilev
+
 Escena::Escena()
 {
     Front_plane       = 50.0;

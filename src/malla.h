@@ -7,6 +7,8 @@
 //
 // #############################################################################
 
+// Alumno: Vladislav Nikolov Vasilev
+
 #ifndef OBJETOS_H_INCLUDED
 #define OBJETOS_H_INCLUDED
 

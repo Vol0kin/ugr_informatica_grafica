@@ -1,4 +1,4 @@
-
+// Alumno: Vladislav Nikolov Vasilev
 
 #include "aux.h"
 #include "ejes.h"

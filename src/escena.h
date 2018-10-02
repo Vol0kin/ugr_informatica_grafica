@@ -5,6 +5,8 @@
 #include "malla.h"
 #include "jerarquico.h"
 
+// Alumno: Vladislav Nikolov Vasilev
+
 class Escena
 {
 

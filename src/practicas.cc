@@ -6,6 +6,8 @@
 // GPL
 //**************************************************************************
 
+// Alumno: Vladislav Nikolov Vasilev
+
 
 #include "aux.h" // includes de OpenGL, windows, y librería std de C++
 #include "escena.h"
