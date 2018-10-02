@@ -29,10 +29,12 @@ class Escena
 
    int objeto_actual = 0 , // objeto actual (el que se visualiza)
        num_objetos   = 0 , // número de objetos (actualizado al crear los objetos en el constructor)
-       modo_actual   = 0 ; // representa el modo de dibujo actual (0 - lineas, 1 - puntos, 2 - relleno, 3 - ajedrez)
+       modo_actual   = 0 , // representa el modo de dibujo actual (0 - lineas, 1 - puntos, 2 - relleno, 3 - ajedrez)
+       modo_dibujado = 0 ; // representa el modo de dibujado actual (0 - inmediato, 1 - diferido)
 
 
-   const int num_modos = 4 ; // representa el numero de modos de dibujo
+   const int num_modos     = 4, // representa las opciones de dibujo
+             num_dibujados = 2; // representa los modos de dibujo disponibles
 
    // Objetos de la escena
    Cubo * cubo = nullptr ; // es importante inicializarlo a 'nullptr'

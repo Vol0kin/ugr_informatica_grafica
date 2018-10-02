@@ -51,14 +51,16 @@ void ObjMallaIndexada::draw_ModoDiferido()
 // Función de visualización de la malla,
 // puede llamar a  draw_ModoInmediato o bien a draw_ModoDiferido
 
-void ObjMallaIndexada::draw(bool ajedrez, int inicio)
+void ObjMallaIndexada::draw(int modo, bool ajedrez, int inicio)
 {
-   // completar .....(práctica 1)
   if (ajedrez)
     dibujar_modo_ajedrez(inicio);
-  else
-    draw_ModoDiferido();
-
+  else {
+    if (modo == 0) 
+      draw_ModoInmediato();
+    else
+      draw_ModoDiferido();
+  }
 }
 
 GLuint ObjMallaIndexada::CrearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid * puntero_ram) {
