@@ -73,7 +73,7 @@ void Escena::dibujar_objeto_actual()
         glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
         break;
       case 2:
-        glColor3f(0.0, 0.0, 1.0);
+        glColor3f(0.333, 0.305, 0.305);
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         break;
       case 3:
@@ -92,9 +92,9 @@ void Escena::dibujar_objeto_actual()
           if (!modo_ajedrez)
             cubo->draw(modo_dibujado);
           else {
-            glColor3f(1.0,0,0);
+            glColor3f(1, 0.682, 0.019);
             cubo->draw(modo_dibujado, modo_ajedrez, 0);
-            glColor3f(0.0, 1.0, 0.0);
+            glColor3f(0.0, 0.0, 1.0);
             cubo->draw(modo_dibujado, modo_ajedrez, 1);
           }
          }
@@ -104,19 +104,38 @@ void Escena::dibujar_objeto_actual()
           if (!modo_ajedrez)
             tetraedro->draw(modo_dibujado);
           else {
-            glColor3f(1.0,0,0);
+            glColor3f(1, 0.682, 0.019);
             tetraedro->draw(modo_dibujado, modo_ajedrez, 0);
-            glColor3f(0.0, 1.0, 0.0);
+            glColor3f(0.0, 0.0, 1.0);
             tetraedro->draw(modo_dibujado, modo_ajedrez, 1);
           }
          }
          break;
       case 2:
+          if (ply != nullptr) {
+            if (!modo_ajedrez)
+              ply->draw(modo_dibujado);
+            else {
+              glColor3f(1, 0.682, 0.019);
+              ply->draw(modo_dibujado, modo_ajedrez, 0);
+              glColor3f(0.0, 0.0, 1.0);
+              ply->draw(modo_dibujado, modo_ajedrez, 1);
+            }
+          }
         ply->draw(modo_dibujado);
         break;
       case 3:
-        objRevol->draw(modo_dibujado);
-        break;
+          if (objRevol != nullptr) {
+            if (!modo_ajedrez)
+              objRevol->draw(modo_dibujado);
+            else {
+              glColor3f(1, 0.682, 0.019);
+              objRevol->draw(modo_dibujado, modo_ajedrez, 0);
+              glColor3f(0.0, 0.0, 1.0);
+              objRevol->draw(modo_dibujado, modo_ajedrez, 1);
+            }
+          }
+          break;
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
          break ;

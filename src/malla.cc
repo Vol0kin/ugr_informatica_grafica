@@ -15,8 +15,6 @@
 void ObjMallaIndexada::draw_ModoInmediato()
 {
   // visualizar la malla usando glDrawElements,
-  // completar (práctica 1)
-  // ...
   glEnableClientState(GL_VERTEX_ARRAY);
   glVertexPointer(3, GL_FLOAT, 0, vertices.data());
   glDrawElements(GL_TRIANGLES, triangulos.size() * 3, GL_UNSIGNED_INT, triangulos.data());
@@ -30,7 +28,6 @@ void ObjMallaIndexada::draw_ModoDiferido()
   // Si los identificadores de los VBO son nulos significa que ese bloque
   // aun no se encuentra en la memoria de la GPU, y por tanto se tendran
   // que pasar
-  
   if (id_vbo_ver == 0)
     id_vbo_ver = CrearVBO(GL_ARRAY_BUFFER, 3 * vertices.size() * sizeof(float), vertices.data());
 
@@ -109,9 +106,6 @@ Cubo::Cubo()
 {
     const float POS_VERTEX = 0.5;
 
-    id_vbo_ver = 0;
-    id_vbo_tri = 0;
-
    // inicializar la tabla de vértices
    vertices =  {  { -POS_VERTEX * 1, -POS_VERTEX * 1, -POS_VERTEX * 1 }, // 0
                   { -POS_VERTEX * 1, -POS_VERTEX * 1, +POS_VERTEX * 1 }, // 1
@@ -127,11 +121,11 @@ Cubo::Cubo()
    // (es importante en cada cara ordenar los vértices en sentido contrario
    //  de las agujas del reloj, cuando esa cara se observa desde el exterior del cubo)
 
-   triangulos = { { 4, 2, 6 }, { 0, 2, 4 },
+   triangulos = {{ 0, 2, 4 }, { 4, 2, 6 },
                   { 1, 5, 3 }, { 3, 5, 7 },
-                  { 1, 2, 0 }, { 1, 3, 2 },
-                  { 7, 6, 5 }, { 5, 6, 4 },
-                  { 5, 0, 4 }, { 1, 0, 5 },
+                  { 1, 3, 0 }, { 0, 3, 2 },
+                  { 5, 4, 7 }, { 7, 4, 6 },
+                  { 1, 0, 5 }, { 5, 0, 4 },
                   { 3, 7, 2 }, { 2, 7, 6 }
                 } ;
 }
@@ -144,9 +138,6 @@ Cubo::Cubo()
 
 Tetraedro::Tetraedro() {
   const float LADO = 1.0;     // Longitud de un lado
-
-  id_vbo_ver = 0;
-  id_vbo_tri = 0;
   
   // Inicializacion tabla vertices inicial (se le aplicará un movimiento mas adelante)
   // Se crea un tetraedro perfecto centrado en el origen de coordenadas
@@ -202,10 +193,10 @@ ObjPLY::ObjPLY( const std::string & nombre_archivo )
 
 ObjRevolucion::ObjRevolucion( const std::string & nombre_ply_perfil )
 {
-   // completar ......(práctica 2)
   std::vector<Tupla3f> perfil;
-  const int N = 20;
+  const int N = 20;              // Numero de perfiles
 
+  // Se leen los vertices del perfil
   ply::read_vertices(nombre_ply_perfil, perfil);
 
   crear(perfil, N); 
@@ -214,26 +205,59 @@ ObjRevolucion::ObjRevolucion( const std::string & nombre_ply_perfil )
 void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
                                const int num_instancias_perf) {
   
-  Tupla3f vertice;
-  const float parte = (2 * M_PI) / num_instancias_perf;
-  const int M = perfil_original.size();
-  int a, b;
+  Tupla3f vertice;                                          // Nuevo vertice a insertar
+  const float parte = (2 * M_PI) / num_instancias_perf;     // Porcion de radian que corresponde a cada vertice
+  const int M = perfil_original.size();                     // Numero de vertices en un perfil
+  int a, b;                                                 // Variables auxiliares en el calculo de caras
 
+  // Calculo de los vertices
   for (int i = 0; i < num_instancias_perf; i++) {
       for (int j = 0; j < M; j++) {
           vertice(X) = perfil_original[j](X) * cos(parte * i);
           vertice(Y) = perfil_original[j](Y);
-          vertice(Z) = perfil_original[j](Z) * cos(parte * i);
+          vertice(Z) = perfil_original[j](X) * sin(parte * i);
+
           vertices.push_back(vertice);
       }
   }
 
+  // Calculo de las caras
   for (int i = 0; i < num_instancias_perf; i++) {
       for (int j = 0; j < M - 1; j++) {
         a = M * i + j;
         b = M * ( ( i + 1) % num_instancias_perf ) + j;
-        triangulos.push_back(Tupla3i(a, b, b + 1));
-        triangulos.push_back(Tupla3i(a, b + 1, a + 1));
+
+        // Se insertan los vertices en el orden superior izda, inferior izda, superior dcha
+        triangulos.push_back(Tupla3i(b, a, b + 1));
+
+        // Se insertan los vertices en el orden superior dcha, inferior izda, inferior dcha
+        triangulos.push_back(Tupla3i(b + 1, a, a + 1));
       }
   }
+
+  // Se insertan los vertices de las tapas (primero el sur y luego el norte)
+  vertices.push_back(Tupla3f(0.0, vertices[0](Y), 0.0));
+  vertices.push_back(Tupla3f(0.0, vertices[perfil_original.size() - 1](Y), 0.0));
+
+  // Las caras de la tapa se generan en sentido horario si se mira desde
+  // el eje de las Y
+
+  // Se insertan las caras de la tapa sur
+  // Primero el actual, luego el siguiente y finalmente el vertice origen
+  for (int i = 0; i < num_instancias_perf; i++) {
+    triangulos.push_back(Tupla3i(M*i,
+                                 M * ((i+1) % num_instancias_perf),
+                                 num_instancias_perf * M )
+                        );
+  }
+
+  // Se insertan las caras de la tapa norte
+  // Primero el vertice origen, luego el siguiente, y despues el actual
+  for (int i = 0; i < num_instancias_perf; i++) {
+    triangulos.push_back(Tupla3i(num_instancias_perf * M + 1,
+                                 M + M*((i+1) % num_instancias_perf) - 1,
+                                 M*(i + 1) - 1)
+                        );
+  }
+  
 }

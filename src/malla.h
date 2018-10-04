@@ -51,8 +51,8 @@ class ObjMallaIndexada
 
    std::vector<Tupla3f> vertices ;   // tabla de coordenadas de vértices (una tupla por vértice, con tres floats)
    std::vector<Tupla3i> triangulos ; // una terna de 3 enteros por cada cara o triángulo
-   GLuint id_vbo_ver,                // identificador del VBO de vertices
-          id_vbo_tri;                // identificador del VBO de triangulos
+   GLuint id_vbo_ver = 0,            // identificador del VBO de vertices
+          id_vbo_tri = 0;            // identificador del VBO de triangulos
 
    // completar: tabla de colores, tabla de normales de vértices
 } ;
