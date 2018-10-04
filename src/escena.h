@@ -41,11 +41,8 @@ class Escena
    // Objetos de la escena
    Cubo * cubo = nullptr ; // es importante inicializarlo a 'nullptr'
    Tetraedro * tetraedro = nullptr;
-
-   // completar: añadir punteros a tetraedro u otros (práctica 1),
-   //            y a un objeto PLY y de revolución (práctica 2),
-   //           y a un objeto jerarquico (práctica 3).
-   // ......
+   ObjPLY * ply = nullptr;
+   ObjRevolucion * objRevol = nullptr;
 
    public:
 

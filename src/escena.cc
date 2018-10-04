@@ -12,9 +12,11 @@
 
 Escena::Escena()
 {
-    Front_plane       = 50.0;
-    Back_plane        = 2000.0;
-    Observer_distance = 4*Front_plane;
+    Front_plane = 0.1;
+    Back_plane = 2000.0;
+    Observer_distance = 2.0;
+
+
     Observer_angle_x  = 0.0 ;
     Observer_angle_y  = 0.0 ;
 
@@ -23,12 +25,10 @@ Escena::Escena()
     // crear los objetos de las prácticas: Mallas o Jerárquicos....
     cubo = new Cubo();
     tetraedro = new Tetraedro();
+    ply = new ObjPLY("plys/ant.ply");
+    objRevol = new ObjRevolucion("plys/peon");
 
-
-    // .......completar: ...
-    // .....
-
-    num_objetos = 2 ; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+    num_objetos = 4 ; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -111,7 +111,12 @@ void Escena::dibujar_objeto_actual()
           }
          }
          break;
-      // case 2:
+      case 2:
+        ply->draw(modo_dibujado);
+        break;
+      case 3:
+        objRevol->draw(modo_dibujado);
+        break;
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
          break ;

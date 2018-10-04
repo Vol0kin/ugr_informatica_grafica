@@ -107,20 +107,20 @@ void ObjMallaIndexada::calcular_normales()
 
 Cubo::Cubo()
 {
-    const float pos_vertex = 50.0;
+    const float POS_VERTEX = 0.5;
 
     id_vbo_ver = 0;
     id_vbo_tri = 0;
 
    // inicializar la tabla de vértices
-   vertices =  {  { -pos_vertex * 1, -pos_vertex * 1, -pos_vertex * 1 }, // 0
-                  { -pos_vertex * 1, -pos_vertex * 1, +pos_vertex * 1 }, // 1
-                  { -pos_vertex * 1, +pos_vertex * 1, -pos_vertex * 1 }, // 2
-                  { -pos_vertex * 1, +pos_vertex * 1, +pos_vertex * 1 }, // 3
-                  { +pos_vertex * 1, -pos_vertex * 1, -pos_vertex * 1 }, // 4
-                  { +pos_vertex * 1, -pos_vertex * 1, +pos_vertex * 1 }, // 5
-                  { +pos_vertex * 1, +pos_vertex * 1, -pos_vertex * 1 }, // 6
-                  { +pos_vertex * 1, +pos_vertex * 1, +pos_vertex * 1 }  // 7
+   vertices =  {  { -POS_VERTEX * 1, -POS_VERTEX * 1, -POS_VERTEX * 1 }, // 0
+                  { -POS_VERTEX * 1, -POS_VERTEX * 1, +POS_VERTEX * 1 }, // 1
+                  { -POS_VERTEX * 1, +POS_VERTEX * 1, -POS_VERTEX * 1 }, // 2
+                  { -POS_VERTEX * 1, +POS_VERTEX * 1, +POS_VERTEX * 1 }, // 3
+                  { +POS_VERTEX * 1, -POS_VERTEX * 1, -POS_VERTEX * 1 }, // 4
+                  { +POS_VERTEX * 1, -POS_VERTEX * 1, +POS_VERTEX * 1 }, // 5
+                  { +POS_VERTEX * 1, +POS_VERTEX * 1, -POS_VERTEX * 1 }, // 6
+                  { +POS_VERTEX * 1, +POS_VERTEX * 1, +POS_VERTEX * 1 }  // 7
                };
 
    // inicializar la tabla de caras o triángulos:
@@ -143,7 +143,7 @@ Cubo::Cubo()
 // *****************************************************************************
 
 Tetraedro::Tetraedro() {
-  const float lado = 100.0;     // Longitud de un lado
+  const float LADO = 1.0;     // Longitud de un lado
 
   id_vbo_ver = 0;
   id_vbo_tri = 0;
@@ -152,10 +152,10 @@ Tetraedro::Tetraedro() {
   // Se crea un tetraedro perfecto centrado en el origen de coordenadas
   // con base sobre el plano horizontal
   // La posicion de los vertices viene dada por la longitud del lado
-  vertices = {  {-lado / 2.0, 0.0, -lado / (2.0 * sqrt(3.0))},  // 0
-                { lado / 2.0, 0.0, -lado / (2.0 * sqrt(3.0))},  // 1
-                {0.0, 0.0, lado / sqrt(3.0)                 },  // 2
-                {0.0, sqrt((2 * lado * lado) / 3), 0.0      },  // 3
+  vertices = {  {-LADO / 2.0, 0.0, -LADO / (2.0 * sqrt(3.0))},  // 0
+                { LADO / 2.0, 0.0, -LADO / (2.0 * sqrt(3.0))},  // 1
+                {0.0, 0.0, LADO / sqrt(3.0)                 },  // 2
+                {0.0, sqrt((2 * LADO * LADO) / 3), 0.0      },  // 3
              };
 
   // Se calcula el centroide del tetraedro anterior (su centro de gravedad), para poder
@@ -203,4 +203,37 @@ ObjPLY::ObjPLY( const std::string & nombre_archivo )
 ObjRevolucion::ObjRevolucion( const std::string & nombre_ply_perfil )
 {
    // completar ......(práctica 2)
+  std::vector<Tupla3f> perfil;
+  const int N = 20;
+
+  ply::read_vertices(nombre_ply_perfil, perfil);
+
+  crear(perfil, N); 
+}
+
+void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
+                               const int num_instancias_perf) {
+  
+  Tupla3f vertice;
+  const float parte = (2 * M_PI) / num_instancias_perf;
+  const int M = perfil_original.size();
+  int a, b;
+
+  for (int i = 0; i < num_instancias_perf; i++) {
+      for (int j = 0; j < M; j++) {
+          vertice(X) = perfil_original[j](X) * cos(parte * i);
+          vertice(Y) = perfil_original[j](Y);
+          vertice(Z) = perfil_original[j](Z) * cos(parte * i);
+          vertices.push_back(vertice);
+      }
+  }
+
+  for (int i = 0; i < num_instancias_perf; i++) {
+      for (int j = 0; j < M - 1; j++) {
+        a = M * i + j;
+        b = M * ( ( i + 1) % num_instancias_perf ) + j;
+        triangulos.push_back(Tupla3i(a, b, b + 1));
+        triangulos.push_back(Tupla3i(a, b + 1, a + 1));
+      }
+  }
 }
