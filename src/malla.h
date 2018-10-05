@@ -74,6 +74,7 @@ class Cubo : public ObjMallaIndexada
 
 } ;
 
+// *****************************************************************************
 // Tetraedro
 
 class Tetraedro : public ObjMallaIndexada {
@@ -97,10 +98,40 @@ class ObjPLY : public ObjMallaIndexada
 class ObjRevolucion : public ObjMallaIndexada
 {
    public:
+      // Constructor sin parametros para ser llamado por las clases hijas
+      ObjRevolucion() {}
       ObjRevolucion( const std::string & nombre_ply_perfil );
 
    protected:
-      void crear(const std::vector<Tupla3f> & perfil_original, const int num_instancias_perf);
+      void crear(const std::vector<Tupla3f> & perfil_original, const int num_instancias_perf,
+                 bool tapa_sur = true, bool tapa_norte = true);
 } ;
+
+// *****************************************************************************
+// Clase cilindro
+// Representa un cilindro de radio 1 y altura 1, cuya base esta sobre el origen
+
+class Cilindro : public ObjRevolucion {
+   public:
+      Cilindro(const int num_vert_perfil, const int num_instancias_perf);
+};
+
+// *****************************************************************************
+// Clase Cono
+// Representa un cono de radio 1 y altura 1, cuya base esta sobre el origen
+
+class Cono : public ObjRevolucion {
+   public:
+      Cono(const int num_vert_perfil, const int num_instancias_perf);
+};
+
+// *****************************************************************************
+// Clase Esfera
+// Representa una esfera de radio 1 centrada en el origen
+
+class Esfera : public ObjRevolucion {
+   public:
+      Esfera(const int num_vert_perfil, const int num_instancias_perf);
+};
 
 #endif

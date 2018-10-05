@@ -27,8 +27,11 @@ Escena::Escena()
     tetraedro = new Tetraedro();
     ply = new ObjPLY("plys/ant.ply");
     objRevol = new ObjRevolucion("plys/peon");
+    cilindro = new Cilindro(15, 40);
+    cono = new Cono(14, 40);
+    esfera = new Esfera(120, 50);
 
-    num_objetos = 4 ; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+    num_objetos = 7; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -136,6 +139,43 @@ void Escena::dibujar_objeto_actual()
             }
           }
           break;
+      case 4:
+          if (cilindro != nullptr) {
+            if (!modo_ajedrez)
+              cilindro->draw(modo_dibujado);
+            else {
+              glColor3f(1, 0.682, 0.019);
+              cilindro->draw(modo_dibujado, modo_ajedrez, 0);
+              glColor3f(0.0, 0.0, 1.0);
+              cilindro->draw(modo_dibujado, modo_ajedrez, 1);
+            }
+          }
+          break;
+      case 5:
+          if (cono != nullptr) {
+            if (!modo_ajedrez)
+              cono->draw(modo_dibujado);
+            else {
+              glColor3f(1, 0.682, 0.019);
+              cono->draw(modo_dibujado, modo_ajedrez, 0);
+              glColor3f(0.0, 0.0, 1.0);
+              cono->draw(modo_dibujado, modo_ajedrez, 1);
+            }
+          }
+          break;
+      case 6:
+          if (esfera != nullptr) {
+            if (!modo_ajedrez)
+              esfera->draw(modo_dibujado);
+            else {
+              glColor3f(1, 0.682, 0.019);
+              esfera->draw(modo_dibujado, modo_ajedrez, 0);
+              glColor3f(0.0, 0.0, 1.0);
+              esfera->draw(modo_dibujado, modo_ajedrez, 1);
+            }
+          }
+          break;
+
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
          break ;

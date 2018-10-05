@@ -203,7 +203,9 @@ ObjRevolucion::ObjRevolucion( const std::string & nombre_ply_perfil )
 }
 
 void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
-                               const int num_instancias_perf) {
+                          const int num_instancias_perf,
+                          bool tapa_sur,
+                          bool tapa_norte) {
   
   Tupla3f vertice;                                          // Nuevo vertice a insertar
   const float parte = (2 * M_PI) / num_instancias_perf;     // Porcion de radian que corresponde a cada vertice
@@ -235,29 +237,106 @@ void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
       }
   }
 
-  // Se insertan los vertices de las tapas (primero el sur y luego el norte)
-  vertices.push_back(Tupla3f(0.0, vertices[0](Y), 0.0));
-  vertices.push_back(Tupla3f(0.0, vertices[perfil_original.size() - 1](Y), 0.0));
-
   // Las caras de la tapa se generan en sentido horario si se mira desde
   // el eje de las Y
 
-  // Se insertan las caras de la tapa sur
-  // Primero el actual, luego el siguiente y finalmente el vertice origen
-  for (int i = 0; i < num_instancias_perf; i++) {
-    triangulos.push_back(Tupla3i(M*i,
-                                 M * ((i+1) % num_instancias_perf),
-                                 num_instancias_perf * M )
-                        );
-  }
+  if (tapa_sur) {
+    // Se inserta el vertice de la tapa sur
+    vertices.push_back(Tupla3f(0.0, vertices[0](Y), 0.0));
 
-  // Se insertan las caras de la tapa norte
-  // Primero el vertice origen, luego el siguiente, y despues el actual
-  for (int i = 0; i < num_instancias_perf; i++) {
-    triangulos.push_back(Tupla3i(num_instancias_perf * M + 1,
-                                 M + M*((i+1) % num_instancias_perf) - 1,
-                                 M*(i + 1) - 1)
-                        );
+    // Se insertan las caras de la tapa sur
+    // Primero el actual, luego el siguiente y finalmente el vertice de la tapa
+    for (int i = 0; i < num_instancias_perf; i++) {
+      triangulos.push_back(Tupla3i(M*i,
+                                   M * ((i+1) % num_instancias_perf),
+                                   num_instancias_perf * M )
+                          );
+    }
   }
   
+
+    if (tapa_norte) {
+    // Se inserta el vertice de la tapa norte
+    vertices.push_back(Tupla3f(0.0, vertices[perfil_original.size() - 1](Y), 0.0));
+
+    // Se insertan las caras de la tapa norte
+    // Primero el vertice de la tapa, luego el siguiente, y despues el actual
+    for (int i = 0; i < num_instancias_perf; i++) {
+      triangulos.push_back(Tupla3i(num_instancias_perf * M + 1,
+                                   M + M*((i+1) % num_instancias_perf) - 1,
+                                   M*(i + 1) - 1)
+                          );
+    }
+  }
+  
+}
+
+Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf) {
+
+  Tupla3f vertice;
+  std::vector<Tupla3f> perfil_original;
+  const float RADIO = 1.0,
+              INCREMENTO_Y = 1.0 / num_vert_perfil;
+
+
+  // Se inserta un vertice mas, habiendo por tanto num_vert_perfil+1 vertices
+  // El vertice se encuentra en la altura Y = 1.0
+
+  for (int i = 0; i <= num_vert_perfil; i++) {
+    vertice(X) = RADIO;
+    vertice(Y) = INCREMENTO_Y * i;
+    vertice(Z) = 0.0;
+
+    perfil_original.push_back(vertice);
+  }
+
+  // Se crea el cilindro con las tapas
+  crear(perfil_original, num_instancias_perf);
+}
+
+Cono::Cono(const int num_vert_perfil, const int num_instancias_perf) {
+
+  Tupla3f vertice;
+  std::vector<Tupla3f> perfil_original;
+  const float RADIO = 1.0,
+              INCREMENTO = RADIO / num_vert_perfil;
+
+
+  // Se inserta un vertice mas, habiendo por tanto num_vert_perfil+1 vertices
+  // El vertice extra representa la punta superior del cono
+
+  for (int i = 0; i <= num_vert_perfil; i++) {
+    vertice(X) = INCREMENTO * (num_vert_perfil - i);
+    vertice(Y) = INCREMENTO * i;
+    vertice(Z) = 0.0;
+
+    perfil_original.push_back(vertice);
+  }
+
+  // Se crea cono solo con la tapa sur
+  crear(perfil_original, num_instancias_perf, true, false);
+}
+
+Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
+
+  Tupla3f vertice;
+  std::vector<Tupla3f> perfil_original;
+  const float RADIO = 1.0,
+              INCREMENTO_Y = (RADIO * 2) / num_vert_perfil; // diametro / num_vertices
+
+
+  // Se inserta un vertice mas, habiendo por tanto num_vert_perfil+1 vertices
+  // El vertice extra representa la punta superior de la esfera
+
+  for (int i = 0; i <= num_vert_perfil; i++) {
+    vertice(Y) = -1.0 + INCREMENTO_Y * i;
+    // Calculo de la componente X a partir de la Y siguiendo la ecuacion de la esfera
+    vertice(X) = sqrt(1 - pow(vertice(Y), 2));
+    vertice(Z) = 0.0;
+
+    perfil_original.push_back(vertice);
+  }
+
+  // Se crea la esfera sin las tapas
+  crear(perfil_original, num_instancias_perf, false, false);
 }
