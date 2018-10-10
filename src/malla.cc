@@ -271,6 +271,12 @@ void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
   
 }
 
+// *****************************************************************************
+//
+// Clase Cilindro (práctica 2)
+//
+// *****************************************************************************
+
 Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf) {
 
   Tupla3f vertice;
@@ -294,6 +300,12 @@ Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf) {
   crear(perfil_original, num_instancias_perf);
 }
 
+// *****************************************************************************
+//
+// Clase Cono (práctica 2)
+//
+// *****************************************************************************
+
 Cono::Cono(const int num_vert_perfil, const int num_instancias_perf) {
 
   Tupla3f vertice;
@@ -316,6 +328,12 @@ Cono::Cono(const int num_vert_perfil, const int num_instancias_perf) {
   // Se crea cono solo con la tapa sur
   crear(perfil_original, num_instancias_perf, true, false);
 }
+
+// *****************************************************************************
+//
+// Clase Esfera (práctica 2)
+//
+// *****************************************************************************
 
 Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
 

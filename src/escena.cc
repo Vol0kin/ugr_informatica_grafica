@@ -175,7 +175,6 @@ void Escena::dibujar_objeto_actual()
             }
           }
           break;
-
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
          break ;
