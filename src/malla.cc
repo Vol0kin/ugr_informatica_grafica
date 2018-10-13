@@ -50,12 +50,12 @@ void ObjMallaIndexada::draw_ModoDiferido()
 // Función de visualización de la malla,
 // puede llamar a  draw_ModoInmediato o bien a draw_ModoDiferido
 
-void ObjMallaIndexada::draw(int modo, bool ajedrez, int inicio)
+void ObjMallaIndexada::draw(ModoVis modo_visualiz, bool modo_diferido)
 {
-  if (ajedrez)
-    dibujar_modo_ajedrez(inicio);
+  if (modo_visualiz == ajedrez)
+    dibujar_modo_ajedrez();
   else {
-    if (modo == 0) 
+    if (!modo_diferido)
       draw_ModoInmediato();
     else
       draw_ModoDiferido();
@@ -75,16 +75,26 @@ GLuint ObjMallaIndexada::CrearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid 
   return id_vbo;                    // devolver ID
 }
 
-void ObjMallaIndexada::dibujar_modo_ajedrez(int inicio) {
-  std::vector<Tupla3i> triangulos_ajedrez;
+void ObjMallaIndexada::dibujar_modo_ajedrez() {
+  std::vector<Tupla3i> triangulos_pares,
+                       triangulos_impares;
 
-  for (int i = inicio; i < triangulos.size(); i += 2)
-    triangulos_ajedrez.push_back(triangulos[i]);
+  for (int i = 0; i < triangulos.size(); i += 2)
+    triangulos_pares.push_back(triangulos[i]);
+
+  for (int i = 1; i < triangulos.size(); i += 2)
+    triangulos_impares.push_back(triangulos[i]);
 
 
   glEnableClientState(GL_VERTEX_ARRAY);
   glVertexPointer(3, GL_FLOAT, 0, vertices.data());
-  glDrawElements(GL_TRIANGLES, triangulos_ajedrez.size() * 3, GL_UNSIGNED_INT, triangulos_ajedrez.data());
+
+  glColor3f(1, 0.682, 0.019);
+  glDrawElements(GL_TRIANGLES, triangulos_pares.size() * 3, GL_UNSIGNED_INT, triangulos_pares.data());
+
+  glColor3f(0.0, 0.0, 1.0);
+  glDrawElements(GL_TRIANGLES, triangulos_impares.size() * 3, GL_UNSIGNED_INT, triangulos_impares.data());
+
   glDisableClientState(GL_VERTEX_ARRAY);
 }
 
@@ -341,19 +351,25 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
   std::vector<Tupla3f> perfil_original;
   const float RADIO = 1.0,
               INCREMENTO_Y = (RADIO * 2) / num_vert_perfil; // diametro / num_vertices
+  const float ANGULO = M_PI / (float) num_vert_perfil;
 
 
   // Se inserta un vertice mas, habiendo por tanto num_vert_perfil+1 vertices
   // El vertice extra representa la punta superior de la esfera
 
   for (int i = 0; i <= num_vert_perfil; i++) {
-    vertice(Y) = -1.0 + INCREMENTO_Y * i;
+    vertice(Y) = 0.0 + cos(i*ANGULO);
     // Calculo de la componente X a partir de la Y siguiendo la ecuacion de la esfera
-    vertice(X) = sqrt(1 - pow(vertice(Y), 2));
+    vertice(X) = 0.0 + sin(i*ANGULO);
     vertice(Z) = 0.0;
 
     perfil_original.push_back(vertice);
   }
+
+  using namespace std;
+
+  for (int i = 0; i < perfil_original.size(); i++)
+    cout << perfil_original[i] << endl;
 
   // Se crea la esfera sin las tapas
   crear(perfil_original, num_instancias_perf, false, false);

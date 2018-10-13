@@ -14,6 +14,14 @@
 
 #include "aux.h"
 
+// Modo de visualizacion
+enum ModoVis {
+   lineas,
+   puntos,
+   relleno,
+   ajedrez
+};
+
 // *****************************************************************************
 //
 // clase para objetos 3D (mallas indexadas)
@@ -34,7 +42,7 @@ class ObjMallaIndexada
    // está función llama a 'draw_MI' (modo inmediato)
    // o bien a 'draw_MD' (modo diferido, VBOs)
    // segun el valor de modo (0 - inmediato, 1 - diferido)
-   void draw(int modo, bool ajedrez = false, int inicio = 0) ;
+   void draw(ModoVis modo_visualiz, bool modo_diferido) ;
 
    // funcion que permite crear un VBO
    GLuint CrearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid * puntero_ram);
@@ -43,7 +51,7 @@ class ObjMallaIndexada
    // (alternando entre 2 colores)
    // inicio especifica la posicion del triangulo inicial (0 o 1), el cual
    // determina si se dibujan los triangulos pares o impares
-   void dibujar_modo_ajedrez(int inicio);
+   void dibujar_modo_ajedrez();
 
    protected:
 

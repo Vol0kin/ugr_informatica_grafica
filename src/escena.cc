@@ -29,9 +29,10 @@ Escena::Escena()
     objRevol = new ObjRevolucion("plys/peon");
     cilindro = new Cilindro(15, 40);
     cono = new Cono(14, 40);
-    esfera = new Esfera(120, 50);
+    esfera = new Esfera(18, 40);
+    objJer = new ObjJerarquico();
 
-    num_objetos = 7; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+    num_objetos = 8; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -60,8 +61,6 @@ void Escena::dibujar_objeto_actual()
 
    // (1) configurar OpenGL para el modo actual (puntos/lineas/sólido)
    //    llamar glPolygonMode, glColor... (y alguna cosas más), según dicho modo
-   
-   bool modo_ajedrez = false;
 
    glPointSize(5);
    glShadeModel(GL_FLAT);
@@ -81,7 +80,6 @@ void Escena::dibujar_objeto_actual()
         break;
       case 3:
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        modo_ajedrez = true;
         break;
    }
 
@@ -91,89 +89,28 @@ void Escena::dibujar_objeto_actual()
    switch( objeto_actual )
    {
       case 0:
-         if ( cubo != nullptr ) {
-          if (!modo_ajedrez)
-            cubo->draw(modo_dibujado);
-          else {
-            glColor3f(1, 0.682, 0.019);
-            cubo->draw(modo_dibujado, modo_ajedrez, 0);
-            glColor3f(0.0, 0.0, 1.0);
-            cubo->draw(modo_dibujado, modo_ajedrez, 1);
-          }
-         }
+         if ( cubo != nullptr ) cubo->draw((ModoVis) modo_actual, modo_diferido);
          break ;
       case 1:
-         if (tetraedro != nullptr) {
-          if (!modo_ajedrez)
-            tetraedro->draw(modo_dibujado);
-          else {
-            glColor3f(1, 0.682, 0.019);
-            tetraedro->draw(modo_dibujado, modo_ajedrez, 0);
-            glColor3f(0.0, 0.0, 1.0);
-            tetraedro->draw(modo_dibujado, modo_ajedrez, 1);
-          }
-         }
+         if (tetraedro != nullptr) tetraedro->draw((ModoVis) modo_actual, modo_diferido);
          break;
       case 2:
-          if (ply != nullptr) {
-            if (!modo_ajedrez)
-              ply->draw(modo_dibujado);
-            else {
-              glColor3f(1, 0.682, 0.019);
-              ply->draw(modo_dibujado, modo_ajedrez, 0);
-              glColor3f(0.0, 0.0, 1.0);
-              ply->draw(modo_dibujado, modo_ajedrez, 1);
-            }
-          }
-        ply->draw(modo_dibujado);
+          if (ply != nullptr) ply->draw((ModoVis) modo_actual, modo_diferido);
         break;
       case 3:
-          if (objRevol != nullptr) {
-            if (!modo_ajedrez)
-              objRevol->draw(modo_dibujado);
-            else {
-              glColor3f(1, 0.682, 0.019);
-              objRevol->draw(modo_dibujado, modo_ajedrez, 0);
-              glColor3f(0.0, 0.0, 1.0);
-              objRevol->draw(modo_dibujado, modo_ajedrez, 1);
-            }
-          }
+          if (objRevol != nullptr) objRevol->draw((ModoVis) modo_actual, modo_diferido);
           break;
       case 4:
-          if (cilindro != nullptr) {
-            if (!modo_ajedrez)
-              cilindro->draw(modo_dibujado);
-            else {
-              glColor3f(1, 0.682, 0.019);
-              cilindro->draw(modo_dibujado, modo_ajedrez, 0);
-              glColor3f(0.0, 0.0, 1.0);
-              cilindro->draw(modo_dibujado, modo_ajedrez, 1);
-            }
-          }
+          if (cilindro != nullptr) cilindro->draw((ModoVis) modo_actual, modo_diferido);
           break;
       case 5:
-          if (cono != nullptr) {
-            if (!modo_ajedrez)
-              cono->draw(modo_dibujado);
-            else {
-              glColor3f(1, 0.682, 0.019);
-              cono->draw(modo_dibujado, modo_ajedrez, 0);
-              glColor3f(0.0, 0.0, 1.0);
-              cono->draw(modo_dibujado, modo_ajedrez, 1);
-            }
-          }
+          if (cono != nullptr) cono->draw((ModoVis) modo_actual, modo_diferido);
           break;
       case 6:
-          if (esfera != nullptr) {
-            if (!modo_ajedrez)
-              esfera->draw(modo_dibujado);
-            else {
-              glColor3f(1, 0.682, 0.019);
-              esfera->draw(modo_dibujado, modo_ajedrez, 0);
-              glColor3f(0.0, 0.0, 1.0);
-              esfera->draw(modo_dibujado, modo_ajedrez, 1);
-            }
-          }
+          if (esfera != nullptr) esfera->draw((ModoVis) modo_actual, modo_diferido);
+          break;
+      case 7:
+        if (objJer != nullptr) objJer->draw((ModoVis) modo_actual, modo_diferido);
           break;
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
@@ -225,11 +162,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          cout << "modo actual == " << modo_actual << endl;
          break;
       case 'V' :
-        modo_dibujado = (modo_dibujado + 1) % num_dibujados;
+        modo_diferido = !modo_diferido;
 
         cout << "modo de dibujado actual == ";
 
-        if (modo_dibujado == 0)
+        if (!modo_diferido)
           cout << "inmediato" << endl;
         else
           cout << "diferido" << endl;

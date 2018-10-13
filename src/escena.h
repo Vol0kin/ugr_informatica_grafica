@@ -31,8 +31,9 @@ class Escena
 
    int objeto_actual = 0 , // objeto actual (el que se visualiza)
        num_objetos   = 0 , // número de objetos (actualizado al crear los objetos en el constructor)
-       modo_actual   = 0 , // representa el modo de dibujo actual (0 - lineas, 1 - puntos, 2 - relleno, 3 - ajedrez)
-       modo_dibujado = 0 ; // representa el modo de dibujado actual (0 - inmediato, 1 - diferido)
+       modo_actual   = 0 ; // representa el modo de dibujo actual (0 - lineas, 1 - puntos, 2 - relleno, 3 - ajedrez)
+
+   bool modo_diferido = false; // representa uso del modo diferido
 
 
    const int num_modos     = 4, // representa las opciones de dibujo
@@ -46,6 +47,7 @@ class Escena
    Cilindro * cilindro = nullptr;
    Cono * cono = nullptr;
    Esfera * esfera = nullptr;
+   ObjJerarquico * objJer = nullptr;
 
    public:
 
