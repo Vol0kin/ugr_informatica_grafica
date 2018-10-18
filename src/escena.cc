@@ -156,6 +156,11 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          // activar siguiente objeto
          objeto_actual = (objeto_actual+1) % num_objetos ;
          cout << "objeto actual == " << objeto_actual << endl ;
+
+         if (objeto_actual == num_objJer)
+            obj_actual_jerarquico = true;
+         else
+            obj_actual_jerarquico = false;
          break ;
       case 'M' :
          modo_actual = (modo_actual + 1) % num_modos;
@@ -171,7 +176,33 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
         else
           cout << "diferido" << endl;
         break;
+      case 'P' :
+        objJer->siguienteParametro();
+        cout << "siguiente parametro" << endl;
+        break;
+      case 'A' :
+        animaciones_activas = !animaciones_activas;
+        conmutarAnimaciones();
+        break;
+      case 'Z' :
+        if (tecla == 'Z') {
+          objJer->incrementaParamAct();
+          cout << "incrementado parametro actual" << endl;
+       } else {
+          objJer->decrementaParamAct();
+          cout << "decrementado parametro actual" << endl;
+       }
+       break;
+      case '>' :
+        objJer->acelerar();
+        cout << "acelerado objeto jerarquico" << endl;
+        break;
+      case '<' :
+        objJer->decelerar();
+        cout << "decelerado objeto jerarquico" << endl;
+        break;
    }
+   
    return false ;
 }
 //**************************************************************************
@@ -201,6 +232,24 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
 	}
 
 	//std::cout << Observer_distance << std::endl;
+}
+
+void Escena::conmutarAnimaciones() {
+   if (obj_actual_jerarquico) {
+      if (animaciones_activas) {
+         objJer->inicioAnimaciones();
+         glutIdleFunc(funcion_desocupado);
+      } else
+         glutIdleFunc(nullptr);
+   } else
+      std::cout << "el objeto actual no es el objeto jerarquico" << std::endl;
+}
+
+void Escena::mgeDesocupado() {
+   objJer->actualizarEstado();
+
+   // indica que se debe hacer redisplay
+   glutPostRedisplay();
 }
 
 //**************************************************************************

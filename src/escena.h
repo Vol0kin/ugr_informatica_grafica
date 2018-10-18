@@ -29,15 +29,21 @@ class Escena
 	void change_projection( const float ratio_xy );
 	void change_observer();
 
+   // Cambio de animaciones
+   void conmutarAnimaciones();
+
    int objeto_actual = 0 , // objeto actual (el que se visualiza)
        num_objetos   = 0 , // número de objetos (actualizado al crear los objetos en el constructor)
        modo_actual   = 0 ; // representa el modo de dibujo actual (0 - lineas, 1 - puntos, 2 - relleno, 3 - ajedrez)
 
-   bool modo_diferido = false; // representa uso del modo diferido
+   bool modo_diferido         = false,      // representa uso del modo diferido
+        animaciones_activas   = false,      // representa el uso de animaciones
+        obj_actual_jerarquico = false;      // representa si el objeto actual es el objJer
 
 
    const int num_modos     = 4, // representa las opciones de dibujo
-             num_dibujados = 2; // representa los modos de dibujo disponibles
+             num_dibujados = 2, // representa los modos de dibujo disponibles
+             num_objJer    = 7; // representa el numero asignado al objJer
 
    // Objetos de la escena
    Cubo * cubo = nullptr ; // es importante inicializarlo a 'nullptr'
@@ -54,6 +60,7 @@ class Escena
    Escena();
 	void inicializar( int UI_window_width, int UI_window_height );
 	void redimensionar( int newWidth, int newHeight ) ;
+   void mgeDesocupado();
 
 	// Dibujar
 	void dibujar() ;

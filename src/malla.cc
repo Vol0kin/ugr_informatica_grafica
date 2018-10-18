@@ -148,7 +148,7 @@ Cubo::Cubo()
 
 Tetraedro::Tetraedro() {
   const float LADO = 1.0;     // Longitud de un lado
-  
+
   // Inicializacion tabla vertices inicial (se le aplicará un movimiento mas adelante)
   // Se crea un tetraedro perfecto centrado en el origen de coordenadas
   // con base sobre el plano horizontal
@@ -209,14 +209,14 @@ ObjRevolucion::ObjRevolucion( const std::string & nombre_ply_perfil )
   // Se leen los vertices del perfil
   ply::read_vertices(nombre_ply_perfil, perfil);
 
-  crear(perfil, N); 
+  crear(perfil, N);
 }
 
 void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
                           const int num_instancias_perf,
                           bool tapa_sur,
                           bool tapa_norte) {
-  
+
   Tupla3f vertice;                                          // Nuevo vertice a insertar
   const float parte = (2 * M_PI) / num_instancias_perf;     // Porcion de radian que corresponde a cada vertice
   const int M = perfil_original.size();                     // Numero de vertices en un perfil
@@ -263,7 +263,7 @@ void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
                           );
     }
   }
-  
+
 
     if (tapa_norte) {
     // Se inserta el vertice de la tapa norte
@@ -278,7 +278,7 @@ void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
                           );
     }
   }
-  
+
 }
 
 // *****************************************************************************
@@ -349,8 +349,6 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
 
   Tupla3f vertice;
   std::vector<Tupla3f> perfil_original;
-  const float RADIO = 1.0,
-              INCREMENTO_Y = (RADIO * 2) / num_vert_perfil; // diametro / num_vertices
   const float ANGULO = M_PI / (float) num_vert_perfil;
 
 
@@ -365,11 +363,6 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
 
     perfil_original.push_back(vertice);
   }
-
-  using namespace std;
-
-  for (int i = 0; i < perfil_original.size(); i++)
-    cout << perfil_original[i] << endl;
 
   // Se crea la esfera sin las tapas
   crear(perfil_original, num_instancias_perf, false, false);

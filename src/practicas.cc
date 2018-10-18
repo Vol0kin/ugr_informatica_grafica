@@ -91,6 +91,17 @@ void special_keys( int tecla, int x, int y )
 }
 
 //***************************************************************************
+// Funcion que gestiona el evento idle en las animaciones
+
+
+//***************************************************************************
+
+void funcion_desocupado() {
+	if (escena != nullptr)
+		escena->mgeDesocupado();
+}
+
+//***************************************************************************
 // Programa principal
 //
 // Se encarga de iniciar la ventana, asignar las funciones e comenzar el
