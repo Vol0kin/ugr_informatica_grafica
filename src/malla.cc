@@ -357,7 +357,6 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
 
   for (int i = 0; i <= num_vert_perfil; i++) {
     vertice(Y) = 0.0 + cos(i*ANGULO);
-    // Calculo de la componente X a partir de la Y siguiendo la ecuacion de la esfera
     vertice(X) = 0.0 + sin(i*ANGULO);
     vertice(Z) = 0.0;
 
