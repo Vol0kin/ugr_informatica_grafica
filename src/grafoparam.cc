@@ -29,39 +29,79 @@ void GrafoParam::actualizarValorEfe( const unsigned iparam, const float valor_na
 
 	switch(iparam) {
 		case 0:
+			// ag. de rotacion de la pierna derecha delantera
+			// oscila entre -30 y 30 grados
+			// inicialmente es 0 grados
 			ag_rotacion_pdd = 30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
 			break;
 		case 1:
+			// ag. de rotacion de la pierna derecha trasera
+			// oscila entre -30 y 30 grados
+			// inicialmente es 0 grados
+			// invertido respecto a la pierna delantera de ese lado
 			ag_rotacion_pda = -30.0 *  sin(0.7 * (2.0 * M_PI * valor_na));
 			break;
 		case 2:
+			// ag. de rotacion de la pierna izquierda delantera
+			// oscila entre -30 y 30 grados
+			// inicialmente es 0 grados
 			ag_rotacion_pid = 30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
 			break;
 		case 3:
+			// ag. de rotacion de la pierna izquierda trasera
+			// oscila entre -30 y 30 grados
+			// inicialmente es 0 grados
+			// invertido respecto a la pierna delantera de ese lado
 			ag_rotacion_pia = -30.0 *  sin(0.7 * (2.0 * M_PI * valor_na));
 			break;
 		case 4:
-			ag_rotacion_pie_pdd = 30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
+			// ag. de rotacion de la parte inferior de la pierna derecha delantera
+			// oscila entre 0 y 60 grados
+			// inicialmente es 30 grados
+			ag_rotacion_pie_pdd = 30.0 + 30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
 			break;
 		case 5:
-			ag_rotacion_pie_pda = -30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
+			// ag. de rotacion de la parte inferior de la pierna derecha trasera
+			// oscila entre 0 y 60 grados
+			// inicialmente es 30 grados
+			// invertido respecto a la pierna delantera de ese lado
+			ag_rotacion_pie_pda = 30.0 - 30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
 			break;
 		case 6:
-			ag_rotacion_pie_pid = 30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
+			// ag. de rotacion de la parte inferior de la pierna izquierda delantera
+			// oscila entre 0 y 60 grados
+			// inicialmente es 30 grados
+			ag_rotacion_pie_pid = 30.0 + 30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
 			break;
 		case 7:
-			ag_rotacion_pie_pia = -30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
+			// ag. de rotacion de la parte inferior de la pierna izquierda trasera
+			// oscila entre 0 y 60 grados
+			// inicialmente es 30 grados
+			// invertido respecto a la pierna delantera de ese lado
+			ag_rotacion_pie_pia = 30.0 - 30.0 * sin(0.7 * (2.0 * M_PI * valor_na));
 			break;
 		case 8:
-			ag_rotacion_cuello = 30.0 * sin(0.3 * (2.0 * M_PI * valor_na));
+			// ag. de rotacion del cuello
+			// oscila entre 0 y 60 grados
+			// inicialmente es 30 grados
+			ag_rotacion_cuello = 30.0 + 30.0 * sin(0.3 * (2.0 * M_PI * valor_na));
 			break;
 		case 9:
+			// ag de rotacion de la cabeza
+			// oscila entre -35 y 35 grados
+			// inicialmente es 0 grados
 			ag_rotacion_cabeza = 35.0 * sin(0.4 * (2.0 * M_PI * valor_na));
 			break;
 		case 10:
-			posicion = 0.0 + 5.0 * sin(0.3 * (2.0 * M_PI * valor_na));
+			// posicion del perro respecto al eje de las Z
+			// oscila entre -5 y 5
+			// inicialmente es 0
+			posicion = 5.0 * sin(0.3 * (2.0 * M_PI * valor_na));
 			break;
 		case 11:
+			// ag. de rotacion de la cola
+			// oscila entre -60 y 60 grados
+			// inicialmente es 0 grados
 			ag_rotacion_cola = 60.0 * sin(0.6 * (2.0 * M_PI * valor_na));
 			break;
 	}
@@ -100,6 +140,7 @@ void GrafoParam::draw( const ModoVis p_modo_vis, const bool p_usar_diferido )
 		// dibujar la cola
 		glPushMatrix();
 			glTranslatef(3.0, 1.2, 0.0);
+			// Rotacion de la cola en el eje X
 			glRotatef(ag_rotacion_cola, 1.0, 0.0, 0.0);
 			glPushMatrix();
 				glScalef(0.2, 0.2, 0.2);
@@ -114,23 +155,30 @@ void GrafoParam::draw( const ModoVis p_modo_vis, const bool p_usar_diferido )
 		glPopMatrix();
 
 		// dibujar las patas
+		// movimiento de rotacion de la pata completa parametrizado
+		// movimiento de rotacion de la parte inferior de la pierna parametrizado
+		// en la clase Pierna
 		glPushMatrix();
 			glTranslatef(-2.5, 0.0, 1.5);
+			// pata derecha delantera
 			glPushMatrix();
 				glRotatef(ag_rotacion_pdd, 0.0, 0.0, 1.0);
 				pierna->draw(p_modo_vis, p_usar_diferido, ag_rotacion_pie_pdd);
 			glPopMatrix();
 			glTranslatef(5.0, 0.0, 0.0);
+			// pata derecha trasera
 			glPushMatrix();
 				glRotatef(ag_rotacion_pda, 0.0, 0.0, 1.0);
 				pierna->draw(p_modo_vis, p_usar_diferido, ag_rotacion_pie_pda);
 			glPopMatrix();
 			glTranslatef(0.0, 0.0, -3.0);
+			// pata izquierda trasera
 			glPushMatrix();
 				glRotatef(ag_rotacion_pia, 0.0, 0.0, 1.0);
 				pierna->draw(p_modo_vis, p_usar_diferido, ag_rotacion_pie_pia);
 			glPopMatrix();
 			glTranslatef(-5.0, 0.0, 0.0);
+			// pata izquierda delantera
 			glPushMatrix();
 				glRotatef(ag_rotacion_pid, 0.0, 0.0, 1.0);
 				pierna->draw(p_modo_vis, p_usar_diferido, ag_rotacion_pie_pid);
@@ -140,7 +188,10 @@ void GrafoParam::draw( const ModoVis p_modo_vis, const bool p_usar_diferido )
 		//dibujar cabeza
 		glPushMatrix();
 			glTranslatef(-3.5, 0.5, 0.0);
-			glRotatef(ag_rotacion_cuello + 30.0, 0.0, 0.0, 1.0);
+			// Giro parametrizado del cuello en el eje de las Z
+			// Inicialmente esta inclinado 30 grados para no sobrepasar el limite
+			// del cuello
+			glRotatef(ag_rotacion_cuello, 0.0, 0.0, 1.0);
 			cabeza->draw(p_modo_vis, p_usar_diferido, ag_rotacion_cabeza);
 		glPopMatrix();
 	glPopMatrix();
@@ -156,7 +207,7 @@ Cabeza::Cabeza() {
 	cubo     = new Cubo();
 }
 
-void Cabeza::draw(const ModoVis p_modo_vis, const bool p_usar_diferido , float ang__rot_cabeza) {
+void Cabeza::draw(const ModoVis p_modo_vis, const bool p_usar_diferido , float ang_rot_cabeza) {
 
 	// color para la cabeza (dorado)
 	glColor3f(0.957, 0.929, 0.545);
@@ -176,7 +227,8 @@ void Cabeza::draw(const ModoVis p_modo_vis, const bool p_usar_diferido , float a
 
 	glPushMatrix();
 		glTranslatef(0.0, 2.0, 0.0);
-		glRotatef(ang__rot_cabeza, 0.0, 1.0, 0.0);
+		// Giro parametrizado de la cabeza en el eje de las Y
+		glRotatef(ang_rot_cabeza, 0.0, 1.0, 0.0);
 		dibujarCabeza(p_modo_vis, p_usar_diferido);
 	glPopMatrix();
 }
@@ -276,9 +328,8 @@ void Pierna::draw(const ModoVis p_modo_vis, const bool p_usar_diferido, float an
 	glPushMatrix();
 		glTranslatef(0.0, -1.5, 0.0);
 		// Giro parametrizado
-		// se le añade 30 grados para que la rodilla no se pase
-		// el limite de movimiento hacia adelante
-		glRotatef(ang_pie_inf + 30.0, 0.0, 0.0, 1.0);
+		// Inicialmente forma 30 grados para no sobrepasar los limites de la rodilla
+		glRotatef(ang_pie_inf, 0.0, 0.0, 1.0);
 		dibujarPiernaInferior(p_modo_vis, p_usar_diferido);
 	glPopMatrix();
 }

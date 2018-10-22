@@ -17,12 +17,12 @@ constexpr int num_parametros = 12; // número de parámetros o grados de liberta
 
 class Cabeza {
 private:
-	Cubo * cubo			= nullptr;
+	Cubo * cubo = nullptr;
 	Cilindro * cilindro = nullptr;
-	Esfera * esfera 	= nullptr;
+	Esfera * esfera = nullptr;
 public:
 	Cabeza();
-	void draw(const ModoVis p_modo_vis, const bool p_usar_diferido, float ang__rot_cabeza);
+	void draw(const ModoVis p_modo_vis, const bool p_usar_diferido, float ang_rot_cabeza);
 	void dibujarCabeza(const ModoVis p_modo_vis, const bool p_usar_diferido);
 	void dibujarOjo(const ModoVis p_modo_vis, const bool p_usar_diferido);
 };
@@ -56,11 +56,6 @@ public:
 
 private:
 
-	// métodos de dibujo de subgrafos
-	void columna( const float altura, const float ag_rotacion,
-                             const float radio_cil );
-
-
 	// objetos tipo malla indexada (nodos terminales)
 
 	Pierna * pierna = nullptr;
@@ -75,23 +70,18 @@ private:
 	// valores efectivos de los parámetros (angulos, distancias, factores de
 	// escala, etc.....) calculados a partir de los valores no acotados
 
-	float altura_1,       // altura de la primera columna
-		  ag_rotacion_1,  // ángulo en grados de rotación (1)
-		  altura_2,       // altura de la segunda columna
-		  ag_rotacion_2 ; // ángulo en grados de rotación (2)
-
-	float ag_rotacion_pdd,
-		  ag_rotacion_pda,
-		  ag_rotacion_pid,
-		  ag_rotacion_pia,
-		  ag_rotacion_pie_pdd,
-		  ag_rotacion_pie_pda,
-		  ag_rotacion_pie_pid,
-		  ag_rotacion_pie_pia,
-		  ag_rotacion_cuello,
-		  ag_rotacion_cabeza,
-		  posicion,
-		  ag_rotacion_cola;
+	float ag_rotacion_pdd,			// Ag. rotacion de la pierna derecha delantera
+		  ag_rotacion_pda,			// Ag. rotacion de la pierna derecha trasera
+		  ag_rotacion_pid,			// Ag. rotacion de la pierna izquierda delantera
+		  ag_rotacion_pia,			// Ag. rotacion de la pierna izquierda trasera
+		  ag_rotacion_pie_pdd,		// Ag. rotacion de la parte inferior de la pierna derecha delantera
+		  ag_rotacion_pie_pda,		// Ag. rotacion de la parte inferior de la pierna derecha trasera
+		  ag_rotacion_pie_pid,		// Ag. rotacion de la parte inferior de la pierna izquierda delantera
+		  ag_rotacion_pie_pia,		// Ag. rotacion de la parte inferior de la pierna izquierda trasera
+		  ag_rotacion_cuello,		// Ag. rotacion del cuello
+		  ag_rotacion_cabeza,		// Ag. rotacion de la cabeza
+		  posicion,					// Posicion del perro en el eje Z (traslacion)
+		  ag_rotacion_cola;			// Ag. de rotacion de la cola
 } ;
 
 #endif
