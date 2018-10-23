@@ -64,6 +64,7 @@ void Escena::dibujar_objeto_actual()
 
    glPointSize(5);
    glShadeModel(GL_FLAT);
+   glDisable(GL_CULL_FACE);
 
    switch(modo_actual) {
       case 0:
@@ -175,34 +176,39 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
           cout << "inmediato" << endl;
         else
           cout << "diferido" << endl;
-        break;
-      case 'P' :
-        objJer->siguienteParametro();
-        cout << "siguiente parametro" << endl;
-        break;
-      case 'A' :
-        animaciones_activas = !animaciones_activas;
-        conmutarAnimaciones();
-        break;
-      case 'Z' :
-        if (tecla == 'Z') {
-          objJer->incrementaParamAct();
-          cout << "incrementado parametro actual" << endl;
-       } else {
-          objJer->decrementaParamAct();
-          cout << "decrementado parametro actual" << endl;
-       }
-       break;
-      case '>' :
-        objJer->acelerar();
-        cout << "acelerado objeto jerarquico" << endl;
-        break;
-      case '<' :
-        objJer->decelerar();
-        cout << "decelerado objeto jerarquico" << endl;
-        break;
+        break;      
    }
-   
+
+   if (obj_actual_jerarquico) {
+	   switch (toupper(tecla)) {
+		   case 'P' :
+		     objJer->siguienteParametro();
+		     cout << "siguiente parametro" << endl;
+		     break;
+		   case 'A' :
+		     animaciones_activas = !animaciones_activas;
+		     conmutarAnimaciones();
+		     break;
+		   case 'Z' :
+		     if (tecla == 'Z') {
+		   	objJer->incrementaParamAct();
+		   	cout << "incrementado parametro actual" << endl;
+		    } else {
+		   	objJer->decrementaParamAct();
+		   	cout << "decrementado parametro actual" << endl;
+		    }
+		    break;
+		   case '>' :
+		     objJer->acelerar();
+		     cout << "acelerado objeto jerarquico" << endl;
+		     break;
+		   case '<' :
+		     objJer->decelerar();
+		     cout << "decelerado objeto jerarquico" << endl;
+		     break;
+	   }
+   }
+
    return false ;
 }
 //**************************************************************************

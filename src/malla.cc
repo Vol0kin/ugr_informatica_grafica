@@ -356,12 +356,17 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
   // El vertice extra representa la punta superior de la esfera
 
   for (int i = 0; i <= num_vert_perfil; i++) {
-    vertice(Y) = 0.0 + cos(i*ANGULO);
-    vertice(X) = 0.0 + sin(i*ANGULO);
+    vertice(X) = 0.0 + cos(-M_PI / 2.0 + i*ANGULO);
+	vertice(Y) = 0.0 + sin(-M_PI / 2.0 + i*ANGULO);
     vertice(Z) = 0.0;
 
     perfil_original.push_back(vertice);
   }
+
+  using namespace std;
+
+  for (int i = 0; i < perfil_original.size(); i++)
+  	cout << perfil_original[i] << endl;
 
   // Se crea la esfera sin las tapas
   crear(perfil_original, num_instancias_perf, false, false);
