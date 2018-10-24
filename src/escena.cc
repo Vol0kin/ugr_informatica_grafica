@@ -176,7 +176,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
           cout << "inmediato" << endl;
         else
           cout << "diferido" << endl;
-        break;      
+        break;
    }
 
    if (obj_actual_jerarquico) {
