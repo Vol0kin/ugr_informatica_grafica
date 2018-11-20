@@ -104,6 +104,22 @@ void ObjMallaIndexada::dibujar_modo_ajedrez() {
 void ObjMallaIndexada::calcular_normales()
 {
    // completar .....(práctica 2)
+   Tupla3f v1, v2, prod_vect;
+
+   normalesCaras.resize(triangulos.size());
+   normalesVertices = std::vector<Tupla3f>(vertices.size(), Tupla3f(0.0, 0.0, 0.0));
+
+   for (int i = 0; i < triangulos.size(); i++) {
+	   v1 = vertices[triangulos[i](Y)] - vertices[triangulos[i](X)];
+	   v2 = vertices[triangulos[i](Z)] - vertices[triangulos[i](Y)];
+
+	   prod_vect = v1.cross(v2);
+
+	   normalesCaras[i] = prod_vect;
+	   normalesVertices[triangulos[i](X)] = normalesVertices[triangulos[i](X)] + prod_vect;
+	   normalesVertices[triangulos[i](Y)] = normalesVertices[triangulos[i](Y)] + prod_vect;
+	   normalesVertices[triangulos[i](Z)] = normalesVertices[triangulos[i](Z)] + prod_vect;
+   }
 }
 
 // *****************************************************************************
@@ -138,6 +154,8 @@ Cubo::Cubo()
                   { 1, 0, 5 }, { 5, 0, 4 },
                   { 3, 7, 2 }, { 2, 7, 6 }
                 } ;
+
+	calcular_normales();
 }
 
 // *****************************************************************************

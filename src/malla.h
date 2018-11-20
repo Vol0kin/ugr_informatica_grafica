@@ -63,6 +63,8 @@ class ObjMallaIndexada
           id_vbo_tri = 0;            // identificador del VBO de triangulos
 
    // completar: tabla de colores, tabla de normales de vértices
+   std::vector<Tupla3f> normalesCaras,		// Normales a las caras
+   						normalesVertices;	// Normales a los vertices
 } ;
 
 // *****************************************************************************
