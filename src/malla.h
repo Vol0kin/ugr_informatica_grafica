@@ -65,6 +65,11 @@ class ObjMallaIndexada
    // completar: tabla de colores, tabla de normales de vértices
    std::vector<Tupla3f> normalesCaras,		// Normales a las caras
    						normalesVertices;	// Normales a los vertices
+
+	Tupla3f colorAmbienteDifuso,			// Color ambiente-difuso del material
+			colorEspecular;					// Color especular del material
+
+	float brillo;							// Brillo del material
 } ;
 
 // *****************************************************************************

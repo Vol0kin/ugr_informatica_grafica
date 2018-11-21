@@ -155,6 +155,7 @@ Cubo::Cubo()
                   { 3, 7, 2 }, { 2, 7, 6 }
                 } ;
 
+	// Calculo de las normales
 	calcular_normales();
 }
 
@@ -194,6 +195,8 @@ Tetraedro::Tetraedro() {
                  {3, 0, 2}, {2, 1, 0}
                };
 
+	// Calculo de las normales
+    calcular_normales();
 }
 
 // *****************************************************************************
@@ -228,6 +231,9 @@ ObjRevolucion::ObjRevolucion( const std::string & nombre_ply_perfil )
   ply::read_vertices(nombre_ply_perfil, perfil);
 
   crear(perfil, N);
+
+  // Calculo de las normales
+  calcular_normales();
 }
 
 void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
@@ -326,6 +332,9 @@ Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf) {
 
   // Se crea el cilindro con las tapas
   crear(perfil_original, num_instancias_perf);
+
+  // Calculo de las normales
+  calcular_normales();
 }
 
 // *****************************************************************************
@@ -355,6 +364,9 @@ Cono::Cono(const int num_vert_perfil, const int num_instancias_perf) {
 
   // Se crea cono solo con la tapa sur
   crear(perfil_original, num_instancias_perf, true, false);
+
+  // Calculo de las normales
+  calcular_normales();
 }
 
 // *****************************************************************************
@@ -383,4 +395,7 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
 
   // Se crea la esfera sin las tapas
   crear(perfil_original, num_instancias_perf, false, false);
+
+  // Calculo de las normales
+  calcular_normales();
 }
