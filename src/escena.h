@@ -41,7 +41,7 @@ class Escena
         obj_actual_jerarquico = false;      // representa si el objeto actual es el objJer
 
 
-   const int num_modos     = 4, // representa las opciones de dibujo
+   const int num_modos     = 5, // representa las opciones de dibujo
              num_dibujados = 2, // representa los modos de dibujo disponibles
              num_objJer    = 7; // representa el numero asignado al objJer
 

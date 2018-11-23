@@ -13,13 +13,15 @@
 #define OBJETOS_H_INCLUDED
 
 #include "aux.h"
+#include "luz.h"
 
 // Modo de visualizacion
 enum ModoVis {
    lineas,
    puntos,
    relleno,
-   ajedrez
+   ajedrez,
+   luces
 };
 
 // *****************************************************************************
@@ -53,6 +55,13 @@ class ObjMallaIndexada
    // determina si se dibujan los triangulos pares o impares
    void dibujar_modo_ajedrez();
 
+
+   // metodo que permite dibujar un objeto cuando la luz esta activa
+   void dibujar_luz();
+
+   // permite crear un material dados los colores del material y el brillo
+   void crear_material();
+
    protected:
 
    void calcular_normales() ; // calcula tabla de normales de vértices (práctica 3)
@@ -66,10 +75,11 @@ class ObjMallaIndexada
    std::vector<Tupla3f> normalesCaras,		// Normales a las caras
    						normalesVertices;	// Normales a los vertices
 
-	Tupla3f colorAmbienteDifuso,			// Color ambiente-difuso del material
-			colorEspecular;					// Color especular del material
+	Tupla4f colorAmbienteDifuso = {1.0, 0.0, 0.0, 1.0},			// Color ambiente-difuso del material
+			colorEspecular = {1.0, 1.0, 1.0, 1.0};					// Color especular del material
 
-	float brillo;							// Brillo del material
+	float brillo = 0.5;							// Brillo del material
+	Luz luz;
 } ;
 
 // *****************************************************************************

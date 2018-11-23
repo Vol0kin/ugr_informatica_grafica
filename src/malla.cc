@@ -52,14 +52,16 @@ void ObjMallaIndexada::draw_ModoDiferido()
 
 void ObjMallaIndexada::draw(ModoVis modo_visualiz, bool modo_diferido)
 {
-  if (modo_visualiz == ajedrez)
-    dibujar_modo_ajedrez();
-  else {
-    if (!modo_diferido)
-      draw_ModoInmediato();
-    else
-      draw_ModoDiferido();
-  }
+ 	if (modo_visualiz == ajedrez)
+		dibujar_modo_ajedrez();
+	else if (modo_visualiz == luces)
+		dibujar_luz();
+ 	else {
+		if (!modo_diferido)
+			draw_ModoInmediato();
+		else
+			draw_ModoDiferido();
+	}
 }
 
 GLuint ObjMallaIndexada::CrearVBO(GLuint tipo_vbo, GLuint tamanio_bytes, GLvoid * puntero_ram) {
@@ -96,6 +98,41 @@ void ObjMallaIndexada::dibujar_modo_ajedrez() {
   glDrawElements(GL_TRIANGLES, triangulos_impares.size() * 3, GL_UNSIGNED_INT, triangulos_impares.data());
 
   glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void ObjMallaIndexada::dibujar_luz() {
+	crear_material();
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_SMOOTH);
+	glEnable(GL_NORMALIZE);
+	glShadeModel(GL_SMOOTH);
+	luz.activarLuz(0);
+	//luz.activarLuz(1);
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_NORMAL_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
+	glNormalPointer(GL_FLOAT, 0, normalesVertices.data());
+
+	glDrawElements(GL_TRIANGLES, triangulos.size() * 3, GL_UNSIGNED_INT, triangulos.data());
+
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_NORMAL_ARRAY);
+
+
+	luz.desactivarLuz(0);
+	//luz.desactivarLuz(1);
+
+	glDisable(GL_LIGHTING);
+}
+
+void ObjMallaIndexada::crear_material() {
+	glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbienteDifuso);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorAmbienteDifuso);
+	glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecular);
+	glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brillo);
 }
 
 // -----------------------------------------------------------------------------
@@ -155,6 +192,10 @@ Cubo::Cubo()
                   { 3, 7, 2 }, { 2, 7, 6 }
                 } ;
 
+	//colorAmbienteDifuso = {1.0, 0.0, 0.0, 1.0};
+	//colorEspecular = {1.0, 1.0, 1.0, 1.0};
+	//brillo = 1.0;
+
 	// Calculo de las normales
 	calcular_normales();
 }
@@ -209,6 +250,7 @@ ObjPLY::ObjPLY( const std::string & nombre_archivo )
 {
    // leer la lista de caras y vértices
    ply::read( nombre_archivo, vertices, triangulos );
+   calcular_normales();
 }
 
 
