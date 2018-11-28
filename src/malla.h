@@ -78,7 +78,7 @@ class ObjMallaIndexada
 	Tupla4f colorAmbienteDifuso = {1.0, 0.0, 0.0, 1.0},			// Color ambiente-difuso del material
 			colorEspecular = {1.0, 1.0, 1.0, 1.0};					// Color especular del material
 
-	float brillo = 0.75;							// Brillo del material
+	float brillo = 100.0;							// Brillo del material
 	Luz luz;
 } ;
 
@@ -157,7 +157,7 @@ class Cono : public ObjRevolucion {
 class Esfera : public ObjRevolucion {
 	public:
 		Esfera(const int num_vert_perfil, const int num_instancias_perf);
-		
+
 	protected:
 		void calcular_normales();
 };
