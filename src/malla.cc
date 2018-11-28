@@ -441,3 +441,24 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
   // Calculo de las normales
   calcular_normales();
 }
+
+void Esfera::calcular_normales() {
+	const Tupla3f ORIGEN = {0.0, 0.0, 0.0};
+	Tupla3f v1, v2, prod_vect;
+
+	normalesCaras.resize(triangulos.size());
+	normalesVertices.resize(vertices.size());
+
+	for (int i = 0; i < vertices.size(); i++)
+		normalesVertices[i] = vertices[i] - ORIGEN;
+
+    for (int i = 0; i < triangulos.size(); i++) {
+ 	   v1 = vertices[triangulos[i](Y)] - vertices[triangulos[i](X)];
+ 	   v2 = vertices[triangulos[i](Z)] - vertices[triangulos[i](Y)];
+
+ 	   prod_vect = v1.cross(v2);
+
+ 	   normalesCaras[i] = prod_vect;
+   }
+
+}

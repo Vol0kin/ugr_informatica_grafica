@@ -25,7 +25,7 @@ Escena::Escena()
     // crear los objetos de las prácticas: Mallas o Jerárquicos....
     cubo = new Cubo();
     tetraedro = new Tetraedro();
-    ply = new ObjPLY("plys/ant.ply");
+    ply = new ObjPLY("plys/beethoven.ply");
     objRevol = new ObjRevolucion("plys/peon");
     cilindro = new Cilindro(15, 40);
     cono = new Cono(14, 40);
