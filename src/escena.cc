@@ -83,10 +83,11 @@ void Escena::dibujar_objeto_actual()
       case 3:
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         break;
-	  case 4:
+	  default:					// Caso en el que las lueces estan activas
 	  	luz_activa = true;
 		glEnable(GL_LIGHTING);
 		glEnable(GL_NORMALIZE);
+		glEnable(GL_SMOOTH);
 		luz->activarLuz(0);
 		luz->activarLuz(1);
 		break;

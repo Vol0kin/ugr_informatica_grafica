@@ -43,7 +43,7 @@ class Escena
 		luz_activa			  = false;
 
 
-   const int num_modos     = 5, // representa las opciones de dibujo
+   const int num_modos     = 6, // representa las opciones de dibujo
              num_dibujados = 2, // representa los modos de dibujo disponibles
              num_objJer    = 7; // representa el numero asignado al objJer
 

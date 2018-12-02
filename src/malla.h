@@ -20,7 +20,8 @@ enum ModoVis {
    puntos,
    relleno,
    ajedrez,
-   luces
+   luz_suave,
+   luz_plana
 };
 
 // *****************************************************************************
@@ -56,7 +57,12 @@ class ObjMallaIndexada
 
 
    // metodo que permite dibujar un objeto cuando la luz esta activa
-   void dibujar_luz();
+   // dibuja el objeto con sombreado de Gouraud
+   void dibujar_luz_suave();
+
+   // metodo que permite dibujar un objeto cuando la luz esta activa
+   // dibuja el objeto con sombreado plano
+   void dibujar_luz_plana();
 
    // permite crear un material dados los colores del material y el brillo
    void crear_material();

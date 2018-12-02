@@ -54,8 +54,10 @@ void ObjMallaIndexada::draw(ModoVis modo_visualiz, bool modo_diferido)
 {
  	if (modo_visualiz == ajedrez)
 		dibujar_modo_ajedrez();
-	else if (modo_visualiz == luces)
-		dibujar_luz();
+	else if (modo_visualiz == luz_suave)
+		dibujar_luz_suave();
+	else if (modo_visualiz == luz_plana)
+		dibujar_luz_plana();
  	else {
 		if (!modo_diferido)
 			draw_ModoInmediato();
@@ -100,13 +102,12 @@ void ObjMallaIndexada::dibujar_modo_ajedrez() {
   glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void ObjMallaIndexada::dibujar_luz() {
+void ObjMallaIndexada::dibujar_luz_suave() {
 	if (normalesVertices.empty())
 		calcular_normales();
 
 	crear_material();
 
-	glEnable(GL_SMOOTH);
 	glShadeModel(GL_SMOOTH);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -119,6 +120,30 @@ void ObjMallaIndexada::dibujar_luz() {
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
+}
+
+void ObjMallaIndexada::dibujar_luz_plana() {
+	if (normalesVertices.empty())
+		calcular_normales();
+
+	crear_material();
+
+	glShadeModel(GL_FLAT);
+
+	// Se indica que se van a dibujar triangulos
+	glBegin(GL_TRIANGLES);
+
+	for (int i = 0; i < normalesCaras.size(); i++) {
+		// Normal de cara a utilizar
+		glNormal3fv(normalesCaras[i]);
+
+		// Se especifican los 3 vertices que usaran la normal
+		glVertex3fv(vertices[triangulos[i](X)]);
+		glVertex3fv(vertices[triangulos[i](Y)]);
+		glVertex3fv(vertices[triangulos[i](Z)]);
+	}
+
+	glEnd();
 }
 
 void ObjMallaIndexada::crear_material() {
@@ -420,7 +445,6 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
 }
 
 void Esfera::calcular_normales() {
-	std::cout << "calcular normales esfera" << std::endl;
 	const Tupla3f ORIGEN = {0.0, 0.0, 0.0};
 	Tupla3f v1, v2, prod_vect;
 
