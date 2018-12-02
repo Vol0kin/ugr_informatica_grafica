@@ -89,7 +89,7 @@ void Escena::dibujar_objeto_actual()
 		glEnable(GL_NORMALIZE);
 		glEnable(GL_SMOOTH);
 		luz->activarLuz(0);
-		luz->activarLuz(1);
+		luz->activarRotarLuzMagenta((float)angulo_rotacion_luz);
 		break;
    }
 
@@ -193,6 +193,9 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
         else
           cout << "diferido" << endl;
         break;
+	  case 'L' :
+	  	angulo_rotacion_luz = (angulo_rotacion_luz + 15) % 360;
+		break;
    }
 
    if (obj_actual_jerarquico) {

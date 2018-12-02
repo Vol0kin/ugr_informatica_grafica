@@ -47,6 +47,8 @@ class Escena
              num_dibujados = 2, // representa los modos de dibujo disponibles
              num_objJer    = 7; // representa el numero asignado al objJer
 
+   int angulo_rotacion_luz = 0;
+
    // Objetos de la escena
    Cubo * cubo = nullptr ; // es importante inicializarlo a 'nullptr'
    Tetraedro * tetraedro = nullptr;
