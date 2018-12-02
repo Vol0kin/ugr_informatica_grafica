@@ -101,14 +101,13 @@ void ObjMallaIndexada::dibujar_modo_ajedrez() {
 }
 
 void ObjMallaIndexada::dibujar_luz() {
+	if (normalesVertices.empty())
+		calcular_normales();
+
 	crear_material();
 
-	glEnable(GL_LIGHTING);
 	glEnable(GL_SMOOTH);
-	glEnable(GL_NORMALIZE);
 	glShadeModel(GL_SMOOTH);
-	luz.activarLuz(0);
-	//luz.activarLuz(1);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_NORMAL_ARRAY);
@@ -120,12 +119,6 @@ void ObjMallaIndexada::dibujar_luz() {
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_NORMAL_ARRAY);
-
-
-	luz.desactivarLuz(0);
-	//luz.desactivarLuz(1);
-
-	glDisable(GL_LIGHTING);
 }
 
 void ObjMallaIndexada::crear_material() {
@@ -195,9 +188,6 @@ Cubo::Cubo()
 	//colorAmbienteDifuso = {1.0, 0.0, 0.0, 1.0};
 	//colorEspecular = {1.0, 1.0, 1.0, 1.0};
 	//brillo = 1.0;
-
-	// Calculo de las normales
-	calcular_normales();
 }
 
 // *****************************************************************************
@@ -235,9 +225,6 @@ Tetraedro::Tetraedro() {
   triangulos = { {3, 2, 1}, {3, 1, 0},
                  {3, 0, 2}, {2, 1, 0}
                };
-
-	// Calculo de las normales
-    calcular_normales();
 }
 
 // *****************************************************************************
@@ -250,7 +237,6 @@ ObjPLY::ObjPLY( const std::string & nombre_archivo )
 {
    // leer la lista de caras y vértices
    ply::read( nombre_archivo, vertices, triangulos );
-   calcular_normales();
 }
 
 
@@ -273,9 +259,6 @@ ObjRevolucion::ObjRevolucion( const std::string & nombre_ply_perfil )
   ply::read_vertices(nombre_ply_perfil, perfil);
 
   crear(perfil, N);
-
-  // Calculo de las normales
-  calcular_normales();
 }
 
 void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
@@ -374,9 +357,6 @@ Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf) {
 
   // Se crea el cilindro con las tapas
   crear(perfil_original, num_instancias_perf);
-
-  // Calculo de las normales
-  calcular_normales();
 }
 
 // *****************************************************************************
@@ -406,9 +386,6 @@ Cono::Cono(const int num_vert_perfil, const int num_instancias_perf) {
 
   // Se crea cono solo con la tapa sur
   crear(perfil_original, num_instancias_perf, true, false);
-
-  // Calculo de las normales
-  calcular_normales();
 }
 
 // *****************************************************************************
@@ -438,11 +415,12 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
   // Se crea la esfera sin las tapas
   crear(perfil_original, num_instancias_perf, false, false);
 
-  // Calculo de las normales
+  // Calculo de las normales para la esfera
   calcular_normales();
 }
 
 void Esfera::calcular_normales() {
+	std::cout << "calcular normales esfera" << std::endl;
 	const Tupla3f ORIGEN = {0.0, 0.0, 0.0};
 	Tupla3f v1, v2, prod_vect;
 

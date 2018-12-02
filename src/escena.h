@@ -4,6 +4,7 @@
 #include "ejes.h"
 #include "malla.h"
 #include "jerarquico.h"
+#include "luz.h"
 
 // Alumno: Vladislav Nikolov Vasilev
 
@@ -38,7 +39,8 @@ class Escena
 
    bool modo_diferido         = false,      // representa uso del modo diferido
         animaciones_activas   = false,      // representa el uso de animaciones
-        obj_actual_jerarquico = false;      // representa si el objeto actual es el objJer
+        obj_actual_jerarquico = false,      // representa si el objeto actual es el objJer
+		luz_activa			  = false;
 
 
    const int num_modos     = 5, // representa las opciones de dibujo
@@ -54,6 +56,7 @@ class Escena
    Cono * cono = nullptr;
    Esfera * esfera = nullptr;
    ObjJerarquico * objJer = nullptr;
+   Luz * luz = nullptr;
 
    public:
 

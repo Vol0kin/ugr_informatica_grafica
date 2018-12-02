@@ -25,12 +25,13 @@ Escena::Escena()
     // crear los objetos de las prácticas: Mallas o Jerárquicos....
     cubo = new Cubo();
     tetraedro = new Tetraedro();
-    ply = new ObjPLY("plys/beethoven.ply");
+    ply = new ObjPLY("plys/ant.ply");
     objRevol = new ObjRevolucion("plys/peon");
     cilindro = new Cilindro(15, 40);
     cono = new Cono(14, 40);
     esfera = new Esfera(18, 40);
     objJer = new ObjJerarquico();
+	luz = new Luz();
 
     num_objetos = 8; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
@@ -82,6 +83,13 @@ void Escena::dibujar_objeto_actual()
       case 3:
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         break;
+	  case 4:
+	  	luz_activa = true;
+		glEnable(GL_LIGHTING);
+		glEnable(GL_NORMALIZE);
+		luz->activarLuz(0);
+		luz->activarLuz(1);
+		break;
    }
 
    // (2) dibujar el objeto actual usando método 'draw' del objeto asociado al
@@ -116,6 +124,13 @@ void Escena::dibujar_objeto_actual()
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
          break ;
+   }
+
+   if (luz_activa) {
+	   	luz->desactivarLuz(0);
+	   	luz->desactivarLuz(1);
+	   	glDisable(GL_LIGHTING);
+		luz_activa = false;
    }
 }
 

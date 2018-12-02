@@ -13,7 +13,6 @@
 #define OBJETOS_H_INCLUDED
 
 #include "aux.h"
-#include "luz.h"
 
 // Modo de visualizacion
 enum ModoVis {
@@ -75,11 +74,10 @@ class ObjMallaIndexada
    std::vector<Tupla3f> normalesCaras,		// Normales a las caras
    						normalesVertices;	// Normales a los vertices
 
-	Tupla4f colorAmbienteDifuso = {1.0, 0.0, 0.0, 1.0},			// Color ambiente-difuso del material
+	Tupla4f colorAmbienteDifuso = {0.4, 0.8, 1.0, 1.0},			// Color ambiente-difuso del material
 			colorEspecular = {1.0, 1.0, 1.0, 1.0};					// Color especular del material
 
 	float brillo = 100.0;							// Brillo del material
-	Luz luz;
 } ;
 
 // *****************************************************************************
