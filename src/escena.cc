@@ -83,7 +83,8 @@ void Escena::dibujar_objeto_actual()
       case 3:
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         break;
-	  default:					// Caso en el que las lueces estan activas
+	  case 4:
+	  case 5:					// Caso en el que las lueces estan activas
 	  	luz_activa = true;
 		glEnable(GL_LIGHTING);
 		glEnable(GL_NORMALIZE);
@@ -174,13 +175,13 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          objeto_actual = (objeto_actual+1) % num_objetos ;
          cout << "objeto actual == " << objeto_actual << endl ;
 
-         if (objeto_actual == num_objJer)
+         if (objeto_actual == NUM_OBJJER)
             obj_actual_jerarquico = true;
          else
             obj_actual_jerarquico = false;
          break ;
       case 'M' :
-         modo_actual = (modo_actual + 1) % num_modos;
+         modo_actual = (modo_actual + 1) % NUM_MODOS;
          cout << "modo actual == " << modo_actual << endl;
          break;
       case 'V' :
@@ -193,8 +194,9 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
         else
           cout << "diferido" << endl;
         break;
-	  case 'L' :
+	  case 'R' :
 	  	angulo_rotacion_luz = (angulo_rotacion_luz + 15) % 360;
+		cout << "angulo de rotacion de la luz magenta: " << angulo_rotacion_luz << endl;
 		break;
    }
 

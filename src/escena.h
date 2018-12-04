@@ -43,11 +43,10 @@ class Escena
 		luz_activa			  = false;
 
 
-   const int num_modos     = 6, // representa las opciones de dibujo
-             num_dibujados = 2, // representa los modos de dibujo disponibles
-             num_objJer    = 7; // representa el numero asignado al objJer
+   const int NUM_MODOS      = 6, // representa las opciones de dibujo
+             NUM_OBJJER     = 7; // representa el numero asignado al objJer
 
-   int angulo_rotacion_luz = 0;
+   int angulo_rotacion_luz = 0;	// Representa el angulo de rotacion de la luz
 
    // Objetos de la escena
    Cubo * cubo = nullptr ; // es importante inicializarlo a 'nullptr'

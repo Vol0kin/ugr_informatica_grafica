@@ -24,6 +24,13 @@ enum ModoVis {
    luz_plana
 };
 
+enum Material {
+	azul,
+	oro,
+	perla,
+	ruby
+};
+
 // *****************************************************************************
 //
 // clase para objetos 3D (mallas indexadas)
@@ -80,10 +87,30 @@ class ObjMallaIndexada
    std::vector<Tupla3f> normalesCaras,		// Normales a las caras
    						normalesVertices;	// Normales a los vertices
 
-	Tupla4f colorAmbienteDifuso = {0.4, 0.8, 1.0, 1.0},			// Color ambiente-difuso del material
-			colorEspecular = {1.0, 1.0, 1.0, 1.0};					// Color especular del material
+	// Material azul
+	Tupla4f colorAmbienteDifusoAzul = {0.4, 0.8, 1.0, 1.0},
+			colorEspecularAzul = {1.0, 1.0, 1.0, 1.0};
+	float brilloAzul = 100.0;
 
-	float brillo = 100.0;							// Brillo del material
+	// Material oro
+	Tupla4f colorAmbienteOro = {0.24725, 0.1995, 0.0745, 1.0},
+			colorDifusoOro = {0.75164, 0.60648, 0.22648, 1.0},
+			colorEspecularOro = {0.628281, 0.555802, 0.366065, 1.0};
+	float brilloOro = 51.2;
+
+	// Material jade
+	Tupla4f colorAmbientePerla = {0.25, 0.20725, 0.20725, 0.922},
+			colorDifusoPerla = {1.0, 0.829, 0.829, 0.922},
+			colorEspecularPerla = {0.296648, 0.296648, 0.296648, 0.922};
+	float brilloPerla =  11.264;
+
+	//Ruby
+	Tupla4f colorAmbienteRuby ={ 0.1745f, 0.01175f, 0.01175f, 0.55f },
+			colorDifusoRuby ={0.61424f, 0.04136f, 0.04136f, 0.55f },
+			colorEspecularRuby ={0.727811f, 0.626959f, 0.626959f, 0.55f };
+	float brilloRuby = 76.8;
+
+	Material material;
 } ;
 
 // *****************************************************************************
