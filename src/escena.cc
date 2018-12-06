@@ -25,7 +25,7 @@ Escena::Escena()
     // crear los objetos de las prácticas: Mallas o Jerárquicos....
     cubo = new Cubo();
     tetraedro = new Tetraedro();
-    ply = new ObjPLY("plys/ant.ply");
+    ply = new ObjPLY("plys/beethoven.ply");
     objRevol = new ObjRevolucion("plys/peon");
     cilindro = new Cilindro(15, 40);
     cono = new Cono(14, 40);
@@ -92,6 +92,34 @@ void Escena::dibujar_objeto_actual()
 		luz->activarLuz(0);
 		luz->activarRotarLuzMagenta((float)angulo_rotacion_luz);
 		break;
+   }
+
+   if (luz_activa) {
+	   switch(material_actual) {
+		   case 0:
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, colorAmbienteDifusoAzul);
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularAzul);
+   			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloAzul);
+   			break;
+   		case 1:
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbienteOro);
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoOro);
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularOro);
+   			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloOro);
+   			break;
+   		case 2:
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbientePerla);
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoPerla);
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularPerla);
+   			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloPerla);
+   			break;
+   		case 3:
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbienteRuby);
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoRuby);
+   			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularRuby);
+   			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloRuby);
+   			break;
+	   }
    }
 
    // (2) dibujar el objeto actual usando método 'draw' del objeto asociado al
@@ -195,8 +223,12 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
           cout << "diferido" << endl;
         break;
 	  case 'R' :
-	  	angulo_rotacion_luz = (angulo_rotacion_luz + 15) % 360;
+	  	angulo_rotacion_luz = (angulo_rotacion_luz + INCR_ANG_LUZ) % 360;
 		cout << "angulo de rotacion de la luz magenta: " << angulo_rotacion_luz << endl;
+		break;
+	  case 'E' :
+	    material_actual = (material_actual + 1) % NUM_MATERIALES;
+		cout << "material actual: " << material_actual << endl;
 		break;
    }
 

@@ -106,8 +106,6 @@ void ObjMallaIndexada::dibujar_luz_suave() {
 	if (normalesVertices.empty())
 		calcular_normales();
 
-	crear_material();
-
 	glShadeModel(GL_SMOOTH);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
@@ -125,8 +123,6 @@ void ObjMallaIndexada::dibujar_luz_suave() {
 void ObjMallaIndexada::dibujar_luz_plana() {
 	if (normalesVertices.empty())
 		calcular_normales();
-
-	crear_material();
 
 	glShadeModel(GL_FLAT);
 
@@ -146,33 +142,6 @@ void ObjMallaIndexada::dibujar_luz_plana() {
 	glEnd();
 }
 
-void ObjMallaIndexada::crear_material() {
-	switch(material) {
-		case azul:
-			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, colorAmbienteDifusoAzul);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularAzul);
-			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloAzul);
-			break;
-		case oro:
-			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbienteOro);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoOro);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularOro);
-			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloOro);
-			break;
-		case perla:
-			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbientePerla);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoPerla);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularPerla);
-			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloPerla);
-			break;
-		case ruby:
-			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbienteRuby);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoRuby);
-			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularRuby);
-			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloRuby);
-			break;
-	}
-}
 
 // -----------------------------------------------------------------------------
 // Recalcula la tabla de normales de vértices (el contenido anterior se pierde)
@@ -230,7 +199,6 @@ Cubo::Cubo()
                   { 1, 0, 5 }, { 5, 0, 4 },
                   { 3, 7, 2 }, { 2, 7, 6 }
                 } ;
-	material = oro;
 }
 
 // *****************************************************************************
@@ -268,8 +236,6 @@ Tetraedro::Tetraedro() {
   triangulos = { {3, 2, 1}, {3, 1, 0},
                  {3, 0, 2}, {2, 1, 0}
                };
-
-  material = ruby;
 }
 
 // *****************************************************************************
@@ -282,7 +248,6 @@ ObjPLY::ObjPLY( const std::string & nombre_archivo )
 {
    // leer la lista de caras y vértices
    ply::read( nombre_archivo, vertices, triangulos );
-   material = azul;
 }
 
 
@@ -305,8 +270,6 @@ ObjRevolucion::ObjRevolucion( const std::string & nombre_ply_perfil )
   ply::read_vertices(nombre_ply_perfil, perfil);
 
   crear(perfil, N);
-
-  material = perla;
 }
 
 void ObjRevolucion::crear(const std::vector<Tupla3f> & perfil_original,
@@ -405,8 +368,6 @@ Cilindro::Cilindro(const int num_vert_perfil, const int num_instancias_perf) {
 
   // Se crea el cilindro con las tapas
   crear(perfil_original, num_instancias_perf);
-
-  material = azul;
 }
 
 // *****************************************************************************
@@ -436,8 +397,6 @@ Cono::Cono(const int num_vert_perfil, const int num_instancias_perf) {
 
   // Se crea cono solo con la tapa sur
   crear(perfil_original, num_instancias_perf, true, false);
-
-  material = azul;
 }
 
 // *****************************************************************************
@@ -469,8 +428,6 @@ Esfera::Esfera(const int num_vert_perfil, const int num_instancias_perf) {
 
   // Calculo de las normales para la esfera
   calcular_normales();
-
-  material = ruby;
 }
 
 void Esfera::calcular_normales() {
@@ -491,5 +448,4 @@ void Esfera::calcular_normales() {
 
  	   normalesCaras[i] = prod_vect;
    }
-
 }

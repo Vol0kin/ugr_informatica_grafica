@@ -14,7 +14,7 @@
 
 class Luz {
 	private:
-		Tupla4f luz_ambiente_l1 = {0.2, 0.0, 0.2, 1.0},
+		Tupla4f luz_ambiente_l1 = {0.2, 0.2, 0.2, 1.0},
 				luz_especular_l1 = {1.0, 0.0, 1.0, 1.0},
 				luz_difusa_l1 = {1.0, 0.0, 1.0, 1.0},
 				luz_pos_l1 = {0.0, 10.0, 10.0, 1.0},
