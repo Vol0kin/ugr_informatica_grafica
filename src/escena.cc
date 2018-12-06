@@ -32,7 +32,7 @@ Escena::Escena()
     esfera = new Esfera(18, 40);
     objJer = new ObjJerarquico();
 	luz = new Luz();
-	objText = new ObjTextura("./img/skybox.jpg");
+	objText = new ObjTextura("./img/skybox2.jpg");
 
     num_objetos = 9; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
