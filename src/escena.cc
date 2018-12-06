@@ -32,8 +32,9 @@ Escena::Escena()
     esfera = new Esfera(18, 40);
     objJer = new ObjJerarquico();
 	luz = new Luz();
+	objText = new ObjTextura("./img/skybox2.jpg");
 
-    num_objetos = 8; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+    num_objetos = 9; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -49,6 +50,9 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 	glEnable( GL_DEPTH_TEST );	// se habilita el z-bufer
 
 	redimensionar( UI_window_width, UI_window_height );
+
+	std::cout << "Creando texturas..." << std::endl;
+	objText->initTexels();
 }
 
 // **************************************************************************
@@ -67,60 +71,64 @@ void Escena::dibujar_objeto_actual()
    glShadeModel(GL_FLAT);
    glDisable(GL_CULL_FACE);
 
-   switch(modo_actual) {
-      case 0:
-        glColor3f(0.0, 0.0, 0.0);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-        break;
-      case 1:
-        glColor3f(0.0, 0.0, 0.0);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-        break;
-      case 2:
-        glColor3f(0.333, 0.305, 0.305);
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        break;
-      case 3:
-        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-        break;
-	  case 4:
-	  case 5:					// Caso en el que las lueces estan activas
-	  	luz_activa = true;
-		glEnable(GL_LIGHTING);
-		glEnable(GL_NORMALIZE);
-		glEnable(GL_SMOOTH);
-		luz->activarLuz(0);
-		luz->activarRotarLuzMagenta((float)angulo_rotacion_luz);
-		break;
-   }
+	if (!obj_textura) {
+		switch(modo_actual) {
+	       case 0:
+	         glColor3f(0.0, 0.0, 0.0);
+	         glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	         break;
+	       case 1:
+	         glColor3f(0.0, 0.0, 0.0);
+	         glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+	         break;
+	       case 2:
+	         glColor3f(0.333, 0.305, 0.305);
+	         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	         break;
+	       case 3:
+	         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	         break;
+	 	  case 4:
+	 	  case 5:					// Caso en el que las lueces estan activas
+	 	  	luz_activa = true;
+	 		glEnable(GL_LIGHTING);
+	 		glEnable(GL_NORMALIZE);
+	 		glEnable(GL_SMOOTH);
+	 		luz->activarLuz(0);
+	 		luz->activarRotarLuzMagenta((float)angulo_rotacion_luz);
+	 		break;
+	    }
 
-   if (luz_activa) {
-	   switch(material_actual) {
-		   case 0:
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, colorAmbienteDifusoAzul);
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularAzul);
-   			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloAzul);
-   			break;
-   		case 1:
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbienteOro);
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoOro);
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularOro);
-   			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloOro);
-   			break;
-   		case 2:
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbientePerla);
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoPerla);
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularPerla);
-   			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloPerla);
-   			break;
-   		case 3:
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbienteRuby);
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoRuby);
-   			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularRuby);
-   			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloRuby);
-   			break;
-	   }
-   }
+	    if (luz_activa) {
+	 	   switch(material_actual) {
+	 		   case 0:
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, colorAmbienteDifusoAzul);
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularAzul);
+	    			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloAzul);
+	    			break;
+	    		case 1:
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbienteOro);
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoOro);
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularOro);
+	    			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloOro);
+	    			break;
+	    		case 2:
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbientePerla);
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoPerla);
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularPerla);
+	    			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloPerla);
+	    			break;
+	    		case 3:
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT, colorAmbienteRuby);
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, colorDifusoRuby);
+	    			glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, colorEspecularRuby);
+	    			glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, brilloRuby);
+	    			break;
+	 	   }
+	    }
+	} else {
+		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	}
 
    // (2) dibujar el objeto actual usando método 'draw' del objeto asociado al
    // valor entero en 'objeto_actual'
@@ -151,17 +159,21 @@ void Escena::dibujar_objeto_actual()
       case 7:
         if (objJer != nullptr) objJer->draw((ModoVis) modo_actual, modo_diferido);
           break;
+	  case 8:
+	  	if (objText != nullptr) objText->draw();
+		break;
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
          break ;
    }
 
-   if (luz_activa) {
-	   	luz->desactivarLuz(0);
-	   	luz->desactivarLuz(1);
-	   	glDisable(GL_LIGHTING);
+	// Desactivar luces despues de dibujar, si estan activas
+	if (luz_activa) {
+		luz->desactivarLuz(0);
+		luz->desactivarLuz(1);
+		glDisable(GL_LIGHTING);
 		luz_activa = false;
-   }
+	}
 }
 
 // **************************************************************************
@@ -205,11 +217,18 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 
          if (objeto_actual == NUM_OBJJER)
             obj_actual_jerarquico = true;
-         else
-            obj_actual_jerarquico = false;
+         else if (objeto_actual == NUM_TEXTURA)
+		 	obj_textura = true;
+		 else {
+			 obj_actual_jerarquico = false;
+			 obj_textura = false;
+		 }
+
          break ;
       case 'M' :
-         modo_actual = (modo_actual + 1) % NUM_MODOS;
+	  	 if (!obj_textura)
+         	modo_actual = (modo_actual + 1) % NUM_MODOS;
+
          cout << "modo actual == " << modo_actual << endl;
          break;
       case 'V' :

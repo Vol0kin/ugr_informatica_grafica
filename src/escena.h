@@ -5,6 +5,7 @@
 #include "malla.h"
 #include "jerarquico.h"
 #include "luz.h"
+#include "textura.h"
 
 // Alumno: Vladislav Nikolov Vasilev
 
@@ -41,11 +42,13 @@ class Escena
    bool modo_diferido         = false,      // representa uso del modo diferido
         animaciones_activas   = false,      // representa el uso de animaciones
         obj_actual_jerarquico = false,      // representa si el objeto actual es el objJer
-		luz_activa			  = false;
+		luz_activa			  = false,
+		obj_textura			  = false;
 
 
    const int NUM_MODOS      = 6,	// representa las opciones de dibujo
              NUM_OBJJER     = 7, 	// representa el numero asignado al objJer
+			 NUM_TEXTURA    = 8,
 			 NUM_MATERIALES = 4,	// representa el numero de materiales
 			 INCR_ANG_LUZ   = 15;	// representa el incremento del angulo de rotacion de la luz
 
@@ -61,6 +64,7 @@ class Escena
    Esfera * esfera = nullptr;
    ObjJerarquico * objJer = nullptr;
    Luz * luz = nullptr;
+   ObjTextura * objText = nullptr;
 
    // Materiales
    // Material azul
