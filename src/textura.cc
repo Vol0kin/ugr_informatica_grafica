@@ -9,8 +9,8 @@ void ObjTextura::initTexels() {
 	imagen.load(nombreImagen.c_str());
 
 	// Se procesa la imagen para obtener sus datos
-	for (long x = 0; x < imagen.height(); x++) {
-		for (long y = 0; y < imagen.width(); y++) {
+	for (long y = 0; y < imagen.height(); y++) {
+		for (long x = 0; x < imagen.width(); x++) {
 			unsigned char *r = imagen.data(x, y, 0, 0);
 			unsigned char *g = imagen.data(x, y, 0, 1);
 			unsigned char *b = imagen.data(x, y, 0, 2);
@@ -71,20 +71,20 @@ ObjTextura::ObjTextura(std::string nomImg) {
 				};
 
 	// (s, t) : s -> height, t -> width
-	coordTextura = {	{0.5, 0.0},		// 0
-						{0.5, 0.75},	// 1
-						{0.25, 0.0},	// 2
-						{0.25, 0.75},	// 3
-						{0.5, 0.25},	// 4
+	coordTextura = {	{0.0, 0.5},		// 0
+						{0.75, 0.5},	// 1
+						{0.0, 0.25},	// 2
+						{0.75, 0.25},	// 3
+						{0.25, 0.5},	// 4
 						{0.5, 0.5},		// 5
 						{0.25, 0.25},	// 6
-						{0.25, 0.5},	// 7
-						{0.0, 0.25},	// 8
-						{0.0, 0.5},		// 9
-						{0.75, 0.25},	// 10
-						{0.75, 0.5},	// 11
-						{0.25, 1.0},	// 12
-						{0.5, 1.0},		// 13
+						{0.5, 0.25},	// 7
+						{0.25, 0.0},	// 8
+						{0.5, 0.0},		// 9
+						{0.25, 0.75},	// 10
+						{0.5, 0.75},	// 11
+						{1.0, 0.25},	// 12
+						{1.0, 0.5},		// 13
 			 		};
 }
 
@@ -100,7 +100,7 @@ void ObjTextura::draw() {
 	glTexCoordPointer(2, GL_FLOAT, 0, coordTextura.data());
 
 	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY_EXT);
 
     glDrawElements(GL_TRIANGLES, triangulos.size() * 3, GL_UNSIGNED_INT, triangulos.data());
 

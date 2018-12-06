@@ -32,7 +32,7 @@ Escena::Escena()
     esfera = new Esfera(18, 40);
     objJer = new ObjJerarquico();
 	luz = new Luz();
-	objText = new ObjTextura("./img/skybox2.jpg");
+	objText = new ObjTextura("./img/skybox.jpg");
 
     num_objetos = 9; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
@@ -226,9 +226,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 
          break ;
       case 'M' :
-	  	 if (!obj_textura)
-         	modo_actual = (modo_actual + 1) % NUM_MODOS;
-
+         modo_actual = (modo_actual + 1) % NUM_MODOS;
          cout << "modo actual == " << modo_actual << endl;
          break;
       case 'V' :
