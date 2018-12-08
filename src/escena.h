@@ -42,14 +42,15 @@ class Escena
    bool modo_diferido         = false,      // representa uso del modo diferido
         animaciones_activas   = false,      // representa el uso de animaciones
         obj_actual_jerarquico = false,      // representa si el objeto actual es el objJer
-		luz_activa			  = false,
-		obj_textura			  = false;
+		luz_activa			  = false,		// representa si la luz esta activa
+		obj_textura			  = false;		// representa si se esta usando un objeto con textura
 
 
    const int NUM_MODOS      = 6,	// representa las opciones de dibujo
              NUM_OBJJER     = 7, 	// representa el numero asignado al objJer
-			 NUM_SKYBOX	    = 8,
-			 NUM_CUADRO		= 9,
+			 NUM_SKYBOX	    = 8,	// representa el numero asignado al skybox
+			 NUM_CUADRO		= 9,	// representa el numero asignado al cuadro
+			 NUM_CHESSBOARD = 10,	// representa el numero asignado al chessboard
 			 NUM_MATERIALES = 4,	// representa el numero de materiales
 			 INCR_ANG_LUZ   = 15;	// representa el incremento del angulo de rotacion de la luz
 
@@ -67,6 +68,7 @@ class Escena
    Luz * luz = nullptr;
    SkyBox * skybox = nullptr;
    Cuadro * cuadro = nullptr;
+   ChessBoard * chessboard = nullptr;
 
    // Materiales
    // Material azul

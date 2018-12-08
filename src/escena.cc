@@ -33,9 +33,10 @@ Escena::Escena()
     objJer = new ObjJerarquico();
 	luz = new Luz();
 	skybox = new SkyBox("./img/skybox2.jpg");
-	cuadro = new Cuadro("./img/logo.jpg");
+	cuadro = new Cuadro("./img/cuadro.jpg");
+	chessboard = new ChessBoard("./img/diamond_ore.png");
 
-    num_objetos = 10; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+    num_objetos = 11; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -55,6 +56,7 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 	std::cout << "Creando texturas..." << std::endl;
 	skybox->initTexels();
 	cuadro->initTexels();
+	chessboard->initTexels();
 }
 
 // **************************************************************************
@@ -73,6 +75,7 @@ void Escena::dibujar_objeto_actual()
    glShadeModel(GL_FLAT);
    glDisable(GL_CULL_FACE);
 
+	// Se comprueba si se usan texturas
 	if (!obj_textura) {
 		switch(modo_actual) {
 	       case 0:
@@ -129,6 +132,7 @@ void Escena::dibujar_objeto_actual()
 	 	   }
 	    }
 	} else {
+		// Para pintar la textura, hay que usar GL_FILL
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	}
 
@@ -145,7 +149,7 @@ void Escena::dibujar_objeto_actual()
          break;
       case 2:
           if (ply != nullptr) ply->draw((ModoVis) modo_actual, modo_diferido);
-        break;
+		  break;
       case 3:
           if (objRevol != nullptr) objRevol->draw((ModoVis) modo_actual, modo_diferido);
           break;
@@ -159,14 +163,17 @@ void Escena::dibujar_objeto_actual()
           if (esfera != nullptr) esfera->draw((ModoVis) modo_actual, modo_diferido);
           break;
       case 7:
-        if (objJer != nullptr) objJer->draw((ModoVis) modo_actual, modo_diferido);
+	  	  if (objJer != nullptr) objJer->draw((ModoVis) modo_actual, modo_diferido);
           break;
 	  case 8:
-	  	if (skybox != nullptr) skybox->draw();
-		break;
+	  	  if (skybox != nullptr) skybox->draw();
+		  break;
 	  case 9:
-	  	if (cuadro != nullptr) cuadro->draw();
-		break;
+	  	  if (cuadro != nullptr) cuadro->draw();
+		  break;
+	  case 10:
+		  if (chessboard != nullptr) chessboard->draw();
+		  break;
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
          break ;
@@ -220,11 +227,14 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          objeto_actual = (objeto_actual+1) % num_objetos ;
          cout << "objeto actual == " << objeto_actual << endl ;
 
-         if (objeto_actual == NUM_OBJJER)
+		 // modificar variables booleanas segun el objeto
+         if (objeto_actual == NUM_OBJJER) {
             obj_actual_jerarquico = true;
-         else if (objeto_actual == NUM_SKYBOX || objeto_actual == NUM_CUADRO)
+		 } else if (objeto_actual == NUM_SKYBOX ||
+			 		objeto_actual == NUM_CUADRO ||
+					objeto_actual == NUM_CHESSBOARD) {
 		 	obj_textura = true;
-		 else {
+		 } else {
 			 obj_actual_jerarquico = false;
 			 obj_textura = false;
 		 }

@@ -115,10 +115,10 @@ SkyBox::SkyBox(std::string nombreImagen) : ObjTextura(nombreImagen) {
 
 Cuadro::Cuadro(std::string nombreImagen) : ObjTextura(nombreImagen) {
 
-	vertices = {	{-1.0, 1.0, 0.0},
-					{-1.0, 0.0, 0.0},
-					{1.0, 0.0, 0.0},
-					{1.0, 1.0, 0.0}
+	vertices = {	{-1.0, 0.5, 0.0},
+					{-1.0, -0.5, 0.0},
+					{1.0, -0.5, 0.0},
+					{1.0, 0.5, 0.0}
 			   };
 
 	triangulos = {	{0, 1, 2},
@@ -130,4 +130,24 @@ Cuadro::Cuadro(std::string nombreImagen) : ObjTextura(nombreImagen) {
 						{1.0, 1.0},
 						{1.0, 0.0}
 				   };
+}
+
+ChessBoard::ChessBoard(std::string nombreImagen) : ObjTextura(nombreImagen) {
+
+	vertices = {	{-1.0, 0.5, 0.0},
+					{-1.0, -0.5, 0.0},
+					{1.0, -0.5, 0.0},
+					{1.0, 0.5, 0.0}
+			   };
+
+	triangulos = {	{0, 1, 2},
+					{0, 2, 3}
+				 };
+
+	coordTextura = {	{0.0, 0.0},
+						{0.0, 4.0},
+						{5.0, 4.0},
+						{5.0, 0.0}
+				   };
+
 }
