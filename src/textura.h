@@ -27,4 +27,14 @@ class ObjTextura {
 		void initTexels();
 };
 
+class SkyBox: public ObjTextura {
+	public:
+		SkyBox(std::string nombreImagen);
+};
+
+class Cuadro: public ObjTextura {
+	public:
+		Cuadro(std::string nombreImagen);
+};
+
 #endif

@@ -32,9 +32,10 @@ Escena::Escena()
     esfera = new Esfera(18, 40);
     objJer = new ObjJerarquico();
 	luz = new Luz();
-	objText = new ObjTextura("./img/skybox2.jpg");
+	skybox = new SkyBox("./img/skybox2.jpg");
+	cuadro = new Cuadro("./img/logo.jpg");
 
-    num_objetos = 9; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+    num_objetos = 10; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 }
 
 //**************************************************************************
@@ -52,7 +53,8 @@ void Escena::inicializar( int UI_window_width, int UI_window_height )
 	redimensionar( UI_window_width, UI_window_height );
 
 	std::cout << "Creando texturas..." << std::endl;
-	objText->initTexels();
+	skybox->initTexels();
+	cuadro->initTexels();
 }
 
 // **************************************************************************
@@ -160,7 +162,10 @@ void Escena::dibujar_objeto_actual()
         if (objJer != nullptr) objJer->draw((ModoVis) modo_actual, modo_diferido);
           break;
 	  case 8:
-	  	if (objText != nullptr) objText->draw();
+	  	if (skybox != nullptr) skybox->draw();
+		break;
+	  case 9:
+	  	if (cuadro != nullptr) cuadro->draw();
 		break;
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
@@ -217,7 +222,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 
          if (objeto_actual == NUM_OBJJER)
             obj_actual_jerarquico = true;
-         else if (objeto_actual == NUM_TEXTURA)
+         else if (objeto_actual == NUM_SKYBOX || objeto_actual == NUM_CUADRO)
 		 	obj_textura = true;
 		 else {
 			 obj_actual_jerarquico = false;

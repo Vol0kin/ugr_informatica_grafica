@@ -48,7 +48,8 @@ class Escena
 
    const int NUM_MODOS      = 6,	// representa las opciones de dibujo
              NUM_OBJJER     = 7, 	// representa el numero asignado al objJer
-			 NUM_TEXTURA    = 8,
+			 NUM_SKYBOX	    = 8,
+			 NUM_CUADRO		= 9,
 			 NUM_MATERIALES = 4,	// representa el numero de materiales
 			 INCR_ANG_LUZ   = 15;	// representa el incremento del angulo de rotacion de la luz
 
@@ -64,7 +65,8 @@ class Escena
    Esfera * esfera = nullptr;
    ObjJerarquico * objJer = nullptr;
    Luz * luz = nullptr;
-   ObjTextura * objText = nullptr;
+   SkyBox * skybox = nullptr;
+   Cuadro * cuadro = nullptr;
 
    // Materiales
    // Material azul
@@ -78,13 +80,13 @@ class Escena
 		   colorEspecularOro = {0.628281, 0.555802, 0.366065, 1.0};
    float brilloOro = 51.2;
 
-   // Material jade
+   // Material perla
    Tupla4f colorAmbientePerla = {0.25, 0.20725, 0.20725, 0.922},
 		   colorDifusoPerla = {1.0, 0.829, 0.829, 0.922},
 		   colorEspecularPerla = {0.296648, 0.296648, 0.296648, 0.922};
    float brilloPerla =  11.264;
 
-   //Ruby
+   // Material ruby
    Tupla4f colorAmbienteRuby = {0.1745, 0.01175, 0.01175, 0.55},
 		   colorDifusoRuby = {0.61424, 0.04136, 0.04136, 0.55},
 		   colorEspecularRuby = {0.727811, 0.626959, 0.626959, 0.55};

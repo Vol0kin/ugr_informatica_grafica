@@ -39,7 +39,32 @@ void ObjTextura::initTexels() {
 
 ObjTextura::ObjTextura(std::string nomImg) {
 	nombreImagen = nomImg;
+}
 
+void ObjTextura::draw() {
+	// Se ignoran colores  y se aplica directamente el texel
+	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+
+	glEnable(GL_TEXTURE_2D);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, idTextura);
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
+	glTexCoordPointer(2, GL_FLOAT, 0, coordTextura.data());
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY_EXT);
+
+    glDrawElements(GL_TRIANGLES, triangulos.size() * 3, GL_UNSIGNED_INT, triangulos.data());
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+	glDisable(GL_TEXTURE_2D);
+}
+
+SkyBox::SkyBox(std::string nombreImagen) : ObjTextura(nombreImagen) {
 	vertices = {	{-0.5, -0.5, -0.5},	// 0
 					{0.5, -0.5, -0.5},	// 1
 					{-0.5, 0.5, -0.5},	// 2
@@ -70,7 +95,7 @@ ObjTextura::ObjTextura(std::string nomImg) {
 			 		{3, 13, 12},
 				};
 
-	// (s, t) : s -> height, t -> width
+	// (s, t) : s -> width, t -> height
 	coordTextura = {	{0.0, 0.5},		// 0
 						{0.75, 0.5},	// 1
 						{0.0, 0.25},	// 2
@@ -88,25 +113,21 @@ ObjTextura::ObjTextura(std::string nomImg) {
 			 		};
 }
 
-void ObjTextura::draw() {
-	// Se ignoran colores  y se aplica directamente el texel
-	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
+Cuadro::Cuadro(std::string nombreImagen) : ObjTextura(nombreImagen) {
 
-	glEnable(GL_TEXTURE_2D);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, idTextura);
+	vertices = {	{-1.0, 1.0, 0.0},
+					{-1.0, 0.0, 0.0},
+					{1.0, 0.0, 0.0},
+					{1.0, 1.0, 0.0}
+			   };
 
-	glVertexPointer(3, GL_FLOAT, 0, vertices.data());
-	glTexCoordPointer(2, GL_FLOAT, 0, coordTextura.data());
+	triangulos = {	{0, 1, 2},
+					{0, 2, 3}
+				 };
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY_EXT);
-
-    glDrawElements(GL_TRIANGLES, triangulos.size() * 3, GL_UNSIGNED_INT, triangulos.data());
-
-    glDisableClientState(GL_VERTEX_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glDisable(GL_TEXTURE_2D);
+	coordTextura = {	{0.0, 0.0},
+						{0.0, 1.0},
+						{1.0, 1.0},
+						{1.0, 0.0}
+				   };
 }
