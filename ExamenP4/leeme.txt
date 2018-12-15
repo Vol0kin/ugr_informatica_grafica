@@ -1,0 +1,40 @@
+Teclas usadas:
+tecla O/o -> cambiar objeto (objeto con la textura del examen es el 11)
+tecla E/e -> cambiar material y luces que se usan (0 = material blanco con las luces de los ejercicios 1-3,
+			 1 = material turquesa con luz blanca)
+tecla M/m -> cambiar modo (0 lineas, 1 puntos, 2 relleno, 3 ajedrez, 4 luz con suavizado, 5 luz plana)
+tecla H/h -> mover luz marron hacia los Z negativos
+tecla J/j -> mover luz marron hacia los Z positivos
+tecla 1 -> cambiar componente ambiental/difusa del material turquesa
+tecla 2 -> cambiar componente especular del material turquesa
+tecla 3 -> cambiar brillo material turquesa
+
+Se proceden a indicar las líneas modificadas
+
+Ejercicio 1:
+Luz.h : 17-20
+Luz.cc : 9 - 14
+Escena.h : 101 - 103
+
+Ejercicio 2:
+Luz.h : 21 - 24
+Luz.cc : 16 - 20
+
+Ejercicio 3:
+Luz.h : 35
+Luz.cc : 45 - 52
+Escena.cc : 250 - 257
+
+Ejercicio 4:
+malla.h : 110 - 119
+malla.c : 251, 454 - 509
+
+Ejercicio 5 :
+Luz.h : 25 - 28, 34
+Luz.cc : 37 - 43
+Escena.h : 106 - 108 (material turquesa)
+Escena.cc : 262 - 270
+
+Ejercicio 6:
+textura.h 45 - 48
+textura.cc 155 - 201

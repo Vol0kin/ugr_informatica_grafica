@@ -1,0 +1,7 @@
+-DLINUX
+-I/usr/include
+-I.
+-lGLEW
+-lGLU
+-lglut
+-lGL
