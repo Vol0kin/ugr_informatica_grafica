@@ -122,8 +122,6 @@ class Escena
 
     // Metodo que realiza una funcion segun el boton pulsado
     // boton derecho + movimiento           -> rota la camara
-    // boton 3 (mover rueda hacia adelante) -> zoom in
-    // boton 4 (mover rueda hacia atras)    -> zoom out
     void ratonMovido(int x, int y);
 
     void setRatonMovimiento();
@@ -131,5 +129,6 @@ class Escena
     void setRatonZoomIn();
     void setRatonZoomOut();
 
+    void zoom();
 };
 #endif

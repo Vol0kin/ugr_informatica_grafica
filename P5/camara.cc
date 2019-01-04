@@ -22,10 +22,20 @@ void Camara::setObservador()
 
 void Camara::zoomIn()
 {
-    Observer_distance *= 0.9;
+    Observer_distance /= 1.2;
 }
 
 void Camara::zoomOut()
 {
-    Observer_distance *= 1.1;
+    Observer_distance *= 1.2;
+}
+
+void Camara::girarFlechaX(GLfloat direccion)
+{
+    Observer_angle_x += direccion;
+}
+
+void Camara::girarFlechaY(GLfloat direccion)
+{
+    Observer_angle_y += direccion;
 }

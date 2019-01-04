@@ -308,22 +308,26 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
    switch ( Tecla1 )
    {
 	   case GLUT_KEY_LEFT:
-         Observer_angle_y-- ;
+         y_ant--;
+         camaras.girarFlechaY(-1.0);
          break;
 	   case GLUT_KEY_RIGHT:
-         Observer_angle_y++ ;
+         y_ant++;
+         camaras.girarFlechaY(1.0);
          break;
 	   case GLUT_KEY_UP:
-         Observer_angle_x-- ;
+         x_ant--;
+         camaras.girarFlechaX(-1.0);
          break;
 	   case GLUT_KEY_DOWN:
-         Observer_angle_x++ ;
+         x_ant++;
+         camaras.girarFlechaX(1.0);
          break;
 	   case GLUT_KEY_PAGE_UP:
-         Observer_distance *=1.2 ;
+         camaras.zoomIn();
          break;
 	   case GLUT_KEY_PAGE_DOWN:
-         Observer_distance /= 1.2 ;
+         camaras.zoomOut();
          break;
 	}
 
@@ -397,14 +401,6 @@ void Escena::ratonMovido(int x, int y)
         x_ant = x;
         y_ant = y;
     }
-    else if (estadoRaton == ZOOM_IN)
-    {
-        camaras.zoomIn();
-    }
-    else if (estadoRaton == ZOOM_OUT)
-    {
-        camaras.zoomOut();
-    }
 }
 
 void Escena::setRatonMovimiento()
@@ -425,4 +421,16 @@ void Escena::setRatonZoomIn()
 void Escena::setRatonZoomOut()
 {
     estadoRaton = ZOOM_OUT;
+}
+
+void Escena::zoom()
+{
+    if (estadoRaton == ZOOM_IN)
+    {
+        camaras.zoomIn();
+    }
+    else if (estadoRaton == ZOOM_OUT)
+    {
+        camaras.zoomOut();
+    }
 }

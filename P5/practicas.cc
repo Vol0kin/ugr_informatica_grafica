@@ -121,14 +121,13 @@ void clickRaton(int boton, int estado, int x, int y)
 	}
 	else if (boton == 3)
 	{
-		std::cout << "boton nada " << boton << std::endl;
 		escena->setRatonZoomIn();
-		ratonMovido(x, y);
+		escena->zoom();
 	}
 	else if (boton == 4)
 	{
 		escena->setRatonZoomOut();
-		ratonMovido(x, y);
+		escena->zoom();
 	}
 	else
 		escena->setRatonNada();

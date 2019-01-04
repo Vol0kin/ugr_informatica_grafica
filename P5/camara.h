@@ -12,6 +12,8 @@ class Camara
     public:
         Camara();
         void girar(GLfloat x, GLfloat y);
+        void girarFlechaX(GLfloat direccion);
+        void girarFlechaY(GLfloat direccion);
         void setObservador();
         void zoomIn();
         void zoomOut();
