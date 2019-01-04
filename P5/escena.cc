@@ -14,9 +14,14 @@ Escena::Escena()
 {
     Front_plane = 0.1;
     Back_plane = 2000.0;
+
+    estadoRaton = NADA;
+
+
     Observer_distance = 2.0;
 
-
+    x_ant = 0.0;
+    y_ant = 0.0;
     Observer_angle_x  = 0.0 ;
     Observer_angle_y  = 0.0 ;
 
@@ -381,7 +386,43 @@ void Escena::change_observer()
   // posicion del observador
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  glTranslatef( 0.0, 0.0, -Observer_distance );
-  glRotatef( Observer_angle_x, 1.0 ,0.0, 0.0 );
-  glRotatef( Observer_angle_y, 0.0, 1.0, 0.0 );
+  camaras.setObservador();
+}
+
+void Escena::ratonMovido(int x, int y)
+{
+    if (estadoRaton == MOVIENDO_CAMARA_FIRSTPERSON)
+    {
+        camaras.girar(x - x_ant, y - y_ant);
+        x_ant = x;
+        y_ant = y;
+    }
+    else if (estadoRaton == ZOOM_IN)
+    {
+        camaras.zoomIn();
+    }
+    else if (estadoRaton == ZOOM_OUT)
+    {
+        camaras.zoomOut();
+    }
+}
+
+void Escena::setRatonMovimiento()
+{
+    estadoRaton = MOVIENDO_CAMARA_FIRSTPERSON;
+}
+
+void Escena::setRatonNada()
+{
+    estadoRaton = NADA;
+}
+
+void Escena::setRatonZoomIn()
+{
+    estadoRaton = ZOOM_IN;
+}
+
+void Escena::setRatonZoomOut()
+{
+    estadoRaton = ZOOM_OUT;
 }

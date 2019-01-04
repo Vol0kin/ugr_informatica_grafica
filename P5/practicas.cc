@@ -101,6 +101,41 @@ void funcion_desocupado() {
 		escena->mgeDesocupado();
 }
 
+void ratonMovido(int x, int y)
+{
+	std::cout << "he movido el raton " << x << ' ' << y << std::endl;
+	if (escena != NULL)
+		escena->ratonMovido(x, y);
+
+	glutPostRedisplay();
+}
+
+void clickRaton(int boton, int estado, int x, int y)
+{
+	if (boton == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN)
+	{
+		std::cout << "he pulsado el boton derecho" << std::endl;
+		if (escena != NULL)
+			escena->setRatonMovimiento();
+		ratonMovido(x, y);
+	}
+	else if (boton == 3)
+	{
+		std::cout << "boton nada " << boton << std::endl;
+		escena->setRatonZoomIn();
+		ratonMovido(x, y);
+	}
+	else if (boton == 4)
+	{
+		escena->setRatonZoomOut();
+		ratonMovido(x, y);
+	}
+	else
+		escena->setRatonNada();
+
+	glutPostRedisplay();
+}
+
 //***************************************************************************
 // Programa principal
 //
@@ -149,6 +184,12 @@ int main( int argc, char **argv )
 
    // asignación de la funcion llamada "tecla_Especial" al evento correspondiente
    glutSpecialFunc( special_keys );
+
+   // asignacion de la funcion clickRaton para procesar pulsaciones del raton
+   glutMouseFunc(clickRaton);
+
+   // asignacion de la funcion ratonMovido para procesar el movimiento del raton
+   glutMotionFunc(ratonMovido);
 
    // inicialización de librería GLEW (solo en Linux)
    #ifdef LINUX

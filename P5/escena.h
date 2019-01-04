@@ -6,8 +6,17 @@
 #include "jerarquico.h"
 #include "luz.h"
 #include "textura.h"
+#include "camara.h"
 
 // Alumno: Vladislav Nikolov Vasilev
+
+enum EstadoRaton
+{
+    MOVIENDO_CAMARA_FIRSTPERSON,
+    ZOOM_IN,
+    ZOOM_OUT,
+    NADA
+};
 
 class Escena
 {
@@ -45,6 +54,9 @@ class Escena
 		luz_activa			  = false,		// representa si la luz esta activa
 		obj_textura			  = false;		// representa si se esta usando un objeto con textura
 
+   EstadoRaton estadoRaton;         // representa el estado del raton
+   GLfloat x_ant, y_ant;
+   Camara camaras;
 
    const int NUM_MODOS      = 6,	// representa las opciones de dibujo
              NUM_OBJJER     = 7, 	// representa el numero asignado al objJer
@@ -107,6 +119,17 @@ class Escena
 	// Interacción con la escena
 	bool teclaPulsada( unsigned char Tecla1, int x, int y ) ;
 	void teclaEspecial( int Tecla1, int x, int y );
+
+    // Metodo que realiza una funcion segun el boton pulsado
+    // boton derecho + movimiento           -> rota la camara
+    // boton 3 (mover rueda hacia adelante) -> zoom in
+    // boton 4 (mover rueda hacia atras)    -> zoom out
+    void ratonMovido(int x, int y);
+
+    void setRatonMovimiento();
+    void setRatonNada();
+    void setRatonZoomIn();
+    void setRatonZoomOut();
 
 };
 #endif
