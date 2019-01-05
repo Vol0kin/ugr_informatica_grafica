@@ -434,3 +434,9 @@ void Escena::zoom()
         camaras.zoomOut();
     }
 }
+
+void Escena::setAntXY(int x, int y)
+{
+    x_ant = x;
+    y_ant = y;
+}

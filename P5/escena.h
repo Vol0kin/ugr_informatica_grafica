@@ -128,6 +128,7 @@ class Escena
     void setRatonNada();
     void setRatonZoomIn();
     void setRatonZoomOut();
+    void setAntXY(int x, int y);
 
     void zoom();
 };

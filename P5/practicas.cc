@@ -117,7 +117,7 @@ void clickRaton(int boton, int estado, int x, int y)
 		std::cout << "he pulsado el boton derecho" << std::endl;
 		if (escena != NULL)
 			escena->setRatonMovimiento();
-		ratonMovido(x, y);
+		escena->setAntXY(x, y);
 	}
 	else if (boton == 3)
 	{
