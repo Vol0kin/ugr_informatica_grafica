@@ -42,6 +42,11 @@ Escena::Escena()
 	chessboard = new ChessBoard("./img/diamond_ore.png");
 
     num_objetos = 11; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+
+    // creacion de las camaras
+    num_camaras = 2;
+    camaras.push_back(Camara());
+    camaras.push_back(Camara(true));
 }
 
 //**************************************************************************
@@ -267,6 +272,10 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
 	    material_actual = (material_actual + 1) % NUM_MATERIALES;
 		cout << "material actual: " << material_actual << endl;
 		break;
+      case 'C' :
+        camara_actual = (camara_actual + 1) % num_camaras;
+        cout << "camara actual: " << camara_actual << endl;
+        break;
    }
 
    if (obj_actual_jerarquico) {
@@ -309,25 +318,25 @@ void Escena::teclaEspecial( int Tecla1, int x, int y )
    {
 	   case GLUT_KEY_LEFT:
          y_ant--;
-         camaras.girarFlechaY(-1.0);
+         camaras[camara_actual].girar(0.0, -1.0);
          break;
 	   case GLUT_KEY_RIGHT:
          y_ant++;
-         camaras.girarFlechaY(1.0);
+          camaras[camara_actual].girar(0.0, 1.0);
          break;
 	   case GLUT_KEY_UP:
          x_ant--;
-         camaras.girarFlechaX(-1.0);
+         camaras[camara_actual].girar(-1.0, 0.0);
          break;
 	   case GLUT_KEY_DOWN:
          x_ant++;
-         camaras.girarFlechaX(1.0);
+         camaras[camara_actual].girar(1.0, 0.0);
          break;
 	   case GLUT_KEY_PAGE_UP:
-         camaras.zoomIn();
+         camaras[camara_actual].zoomIn();
          break;
 	   case GLUT_KEY_PAGE_DOWN:
-         camaras.zoomOut();
+         camaras[camara_actual].zoomOut();
          break;
 	}
 
@@ -365,7 +374,11 @@ void Escena::change_projection( const float ratio_xy )
   glLoadIdentity();
   const float wy = 0.84*Front_plane,
   wx = ratio_xy*wy ;
-  glFrustum( -wx, +wx, -wy, +wy, Front_plane, Back_plane );
+  
+  if (!camaras[camara_actual].esCamaraOrto())
+    camaras[camara_actual].setProjection(-wx, +wx, -wy, +wy, Front_plane, Back_plane);
+  else
+     camaras[camara_actual].setProjection(-1.0, 1.0, -1.0, 1.0, Front_plane, Back_plane);
 
 
 }
@@ -390,14 +403,14 @@ void Escena::change_observer()
   // posicion del observador
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
-  camaras.setObservador();
+  camaras[camara_actual].setObservador();
 }
 
 void Escena::ratonMovido(int x, int y)
 {
     if (estadoRaton == MOVIENDO_CAMARA_FIRSTPERSON)
     {
-        camaras.girar(x - x_ant, y - y_ant);
+        camaras[camara_actual].girar(x - x_ant, y - y_ant);
         x_ant = x;
         y_ant = y;
     }
@@ -427,11 +440,11 @@ void Escena::zoom()
 {
     if (estadoRaton == ZOOM_IN)
     {
-        camaras.zoomIn();
+        camaras[camara_actual].zoomIn();
     }
     else if (estadoRaton == ZOOM_OUT)
     {
-        camaras.zoomOut();
+        camaras[camara_actual].zoomOut();
     }
 }
 

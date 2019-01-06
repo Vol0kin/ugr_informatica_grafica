@@ -43,10 +43,12 @@ class Escena
    // Cambio de animaciones
    void conmutarAnimaciones();
 
-   int objeto_actual = 0 , // objeto actual (el que se visualiza)
-       num_objetos   = 0 , // número de objetos (actualizado al crear los objetos en el constructor)
-       modo_actual   = 0 , // representa el modo de dibujo actual (0 - lineas, 1 - puntos, 2 - relleno, 3 - ajedrez)
-	   material_actual = 0; // representa el material actual
+   int objeto_actual = 0 ,  // objeto actual (el que se visualiza)
+       num_objetos   = 0 ,  // número de objetos (actualizado al crear los objetos en el constructor)
+       modo_actual   = 0 ,  // representa el modo de dibujo actual (0 - lineas, 1 - puntos, 2 - relleno, 3 - ajedrez)
+	   material_actual = 0, // representa el material actual
+       camara_actual = 0,   // representa la camara actual
+       num_camaras   = 0;   // representa el numero de camaras
 
    bool modo_diferido         = false,      // representa uso del modo diferido
         animaciones_activas   = false,      // representa el uso de animaciones
@@ -56,7 +58,8 @@ class Escena
 
    EstadoRaton estadoRaton;         // representa el estado del raton
    GLfloat x_ant, y_ant;
-   Camara camaras;
+   std::vector<Camara> camaras;
+   //Camara camaras;
 
    const int NUM_MODOS      = 6,	// representa las opciones de dibujo
              NUM_OBJJER     = 7, 	// representa el numero asignado al objJer

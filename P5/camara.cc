@@ -1,16 +1,21 @@
 #include "camara.h"
 
-Camara::Camara()
+Camara::Camara(bool esOrto)
 {
     Observer_distance = 2.0;
     Observer_angle_x = 0.0;
     Observer_angle_y = 0.0;
+
+    camaraOrto = esOrto;
 }
 
 void Camara::girar(GLfloat x, GLfloat y)
 {
-    Observer_angle_x += x;
-    Observer_angle_y += y;
+    if (!camaraOrto)
+    {
+        Observer_angle_x += x;
+        Observer_angle_y += y;
+    }
 }
 
 void Camara::setObservador()
@@ -30,12 +35,19 @@ void Camara::zoomOut()
     Observer_distance *= 1.2;
 }
 
-void Camara::girarFlechaX(GLfloat direccion)
+void Camara::setProjection(GLdouble left, GLdouble right, GLdouble bottom,
+                           GLdouble top, GLdouble near, GLdouble far) const
 {
-    Observer_angle_x += direccion;
+    if (camaraOrto)
+    {
+        glOrtho(left * Observer_distance, right * Observer_distance,
+                bottom * Observer_distance, top * Observer_distance,
+                near, far);
+    }
+    else
+    {
+        glFrustum(left, right, bottom, top, near, far);
+    }
 }
 
-void Camara::girarFlechaY(GLfloat direccion)
-{
-    Observer_angle_y += direccion;
-}
+bool Camara::esCamaraOrto() const { return camaraOrto; }
