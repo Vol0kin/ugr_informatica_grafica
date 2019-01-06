@@ -275,6 +275,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
       case 'C' :
         camara_actual = (camara_actual + 1) % num_camaras;
         cout << "camara actual: " << camara_actual << endl;
+        change_projection(glutGet(GLUT_WINDOW_WIDTH) / glutGet(GLUT_WINDOW_HEIGHT) );
         break;
    }
 
@@ -374,7 +375,7 @@ void Escena::change_projection( const float ratio_xy )
   glLoadIdentity();
   const float wy = 0.84*Front_plane,
   wx = ratio_xy*wy ;
-  
+
   if (!camaras[camara_actual].esCamaraOrto())
     camaras[camara_actual].setProjection(-wx, +wx, -wy, +wy, Front_plane, Back_plane);
   else
@@ -408,11 +409,14 @@ void Escena::change_observer()
 
 void Escena::ratonMovido(int x, int y)
 {
-    if (estadoRaton == MOVIENDO_CAMARA_FIRSTPERSON)
+    if (!camaras[camara_actual].esCamaraOrto())
     {
-        camaras[camara_actual].girar(x - x_ant, y - y_ant);
-        x_ant = x;
-        y_ant = y;
+        if (estadoRaton == MOVIENDO_CAMARA_FIRSTPERSON)
+        {
+            camaras[camara_actual].girar(x - x_ant, y - y_ant);
+            x_ant = x;
+            y_ant = y;
+        }
     }
 }
 
