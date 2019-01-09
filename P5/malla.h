@@ -159,4 +159,13 @@ class Esfera : public ObjRevolucion {
 		void calcular_normales();
 };
 
+// *****************************************************************************
+// Practica 5
+
+class Piramide : public ObjMallaIndexada
+{
+	public:
+		Piramide();
+};
+
 #endif

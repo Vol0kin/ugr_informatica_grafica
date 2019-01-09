@@ -449,3 +449,13 @@ void Esfera::calcular_normales() {
  	   normalesCaras[i] = prod_vect;
    }
 }
+
+Piramide::Piramide()
+{
+	vertices = { {0.5, 0.0, 0.5}, {-0.5, 0.0, 0.5},
+				 {-0.5, 0.0, -0.5}, {0.5, 0.0, -0.5},
+			 	 {0.0, 1.0, 0.0} };
+
+	triangulos = { {4, 0, 3}, {4, 1, 0}, {4, 2, 1}, {4, 3, 2},
+				   {1, 2, 3}, {1, 3, 0} };
+}
