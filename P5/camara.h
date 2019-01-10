@@ -10,6 +10,14 @@ class Camara
                 Observer_angle_x,
                 Observer_angle_y;
         bool camaraOrto;
+		GLdouble ortoProjLeft = 0.0,
+				 ortoProjRight = 0.0,
+				 ortoProjBottom = 0.0,
+				 ortoProjTop = 0.0,
+				 ortoProjNear = 0.0,
+				 ortoProjFar = 0.0;
+
+		void setOrtoProjection();
     public:
         Camara(bool esOrto = false);
         void girar(GLfloat x, GLfloat y);
@@ -21,7 +29,7 @@ class Camara
         // puede establecer una vista en perspectiva o una
         // vista ortogonal
         void setProjection(GLdouble left, GLdouble right, GLdouble bottom,
-                           GLdouble top, GLdouble near, GLdouble far) const;
+                           GLdouble top, GLdouble near, GLdouble far);
 
         bool esCamaraOrto() const;
 };

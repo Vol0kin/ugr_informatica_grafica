@@ -209,7 +209,7 @@ void Escena::dibujar()
 {
 	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ); // Limpiar la pantalla
 	change_observer();
-   ejes.draw();
+	ejes.draw();
 	dibujar_objeto_actual();
 }
 
@@ -275,7 +275,7 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
       case 'C' :
         camara_actual = (camara_actual + 1) % num_camaras;
         cout << "camara actual: " << camara_actual << endl;
-        change_projection(glutGet(GLUT_WINDOW_WIDTH) / glutGet(GLUT_WINDOW_HEIGHT) );
+        redimensionar(glutGet(GLUT_WINDOW_WIDTH), glutGet(GLUT_WINDOW_HEIGHT) );
         break;
    }
 
@@ -371,17 +371,15 @@ void Escena::mgeDesocupado() {
 
 void Escena::change_projection( const float ratio_xy )
 {
-  glMatrixMode( GL_PROJECTION );
-  glLoadIdentity();
-  const float wy = 0.84*Front_plane,
-  wx = ratio_xy*wy ;
+	glMatrixMode( GL_PROJECTION );
+	glLoadIdentity();
+	const float wy = 0.84*Front_plane,
+	wx = ratio_xy*wy ;
 
-  if (!camaras[camara_actual].esCamaraOrto())
-    camaras[camara_actual].setProjection(-wx, +wx, -wy, +wy, Front_plane, Back_plane);
-  else
-     camaras[camara_actual].setProjection(-1.0, 1.0, -1.0, 1.0, Front_plane, Back_plane);
-
-
+	if (!camaras[camara_actual].esCamaraOrto())
+		camaras[camara_actual].setProjection(-wx, +wx, -wy, +wy, Front_plane, Back_plane);
+	else
+		camaras[camara_actual].setProjection(-wx, +wx, -wy, +wy, -20.0, 20.0);
 }
 //**************************************************************************
 // Funcion que se invoca cuando cambia el tamaño de la ventana
