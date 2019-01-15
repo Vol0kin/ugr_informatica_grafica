@@ -168,4 +168,18 @@ class Piramide : public ObjMallaIndexada
 		Piramide();
 };
 
+class Estrella : public ObjMallaIndexada
+{
+	private:
+		Piramide * piramide1,
+				 * piramide2,
+				 * piramide3,
+				 * piramide4,
+				 * piramide5,
+				 * piramide6;
+	public:
+		Estrella();
+		void draw(ModoVis modo_visualiz, bool modo_diferido);
+};
+
 #endif

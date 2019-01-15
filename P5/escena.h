@@ -84,6 +84,7 @@ class Escena
    SkyBox * skybox = nullptr;
    Cuadro * cuadro = nullptr;
    ChessBoard * chessboard = nullptr;
+   Estrella * estrella = nullptr;
 
    // Materiales
    // Material azul

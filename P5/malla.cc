@@ -459,3 +459,47 @@ Piramide::Piramide()
 	triangulos = { {4, 0, 3}, {4, 1, 0}, {4, 2, 1}, {4, 3, 2},
 				   {1, 2, 3}, {1, 3, 0} };
 }
+
+Estrella::Estrella()
+{
+	piramide1 = new Piramide();
+	piramide2 = new Piramide();
+	piramide3 = new Piramide();
+	piramide4 = new Piramide();
+	piramide5 = new Piramide();
+	piramide6 = new Piramide();
+}
+
+void Estrella::draw(ModoVis modo_visualiz, bool modo_diferido)
+{
+	glPushMatrix();
+		glPushMatrix();
+			piramide1->draw(modo_visualiz, modo_diferido);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(90.0, 0.0, 0.0, 1.0);
+			piramide2->draw(modo_visualiz, modo_diferido);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(180.0, 0.0, 0.0, 1.0);
+			piramide3->draw(modo_visualiz, modo_diferido);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(-90.0, 0.0, 0.0, 1.0);
+			piramide4->draw(modo_visualiz, modo_diferido);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(90.0, 1.0, 0.0, 0.0);
+			piramide5->draw(modo_visualiz, modo_diferido);
+		glPopMatrix();
+
+		glPushMatrix();
+			glRotatef(-90.0, 1.0, 0.0, 0.0);
+			piramide6->draw(modo_visualiz, modo_diferido);
+		glPopMatrix();
+	glPopMatrix();
+}
