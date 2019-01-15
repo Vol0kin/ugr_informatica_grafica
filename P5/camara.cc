@@ -2,11 +2,18 @@
 
 Camara::Camara(bool esOrto)
 {
-    Observer_distance = 2.0;
     Observer_angle_x = 0.0;
     Observer_angle_y = 0.0;
 
-    camaraOrto = esOrto;
+	camaraOrto = esOrto;
+
+	Observer_distance = 2.0;
+
+	// si la camara es ortogonal se establece el observador a una mayor distancia
+	// para conseguir un mayor zoom
+	if (camaraOrto)
+		Observer_distance = 20.0;
+
 }
 
 void Camara::girar(GLfloat x, GLfloat y)
@@ -55,7 +62,7 @@ void Camara::setProjection(GLdouble left, GLdouble right, GLdouble bottom,
 		// sentido negativo de las Z
 		// valores positivos de far y near significan que se esta mirando en el
 		// sentido positivo de las z
-				
+
         glOrtho(Observer_distance * left , Observer_distance * right ,
 			    Observer_distance * bottom , Observer_distance * top ,
 				near, far);

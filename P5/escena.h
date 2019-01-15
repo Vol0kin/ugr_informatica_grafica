@@ -15,6 +15,7 @@ enum EstadoRaton
     MOVIENDO_CAMARA_FIRSTPERSON,
     ZOOM_IN,
     ZOOM_OUT,
+	SELECCIONAR_OBJETO,
     NADA
 };
 
@@ -24,11 +25,6 @@ class Escena
    private:
 
    Ejes ejes;
-
-   // variables que definen la posicion de la camara en coordenadas polares
-   GLfloat Observer_distance;
-   GLfloat Observer_angle_x;
-   GLfloat Observer_angle_y;
 
    // variables que controlan la ventana y la transformacion de perspectiva
    GLfloat Width, Height, Front_plane, Back_plane;
@@ -54,7 +50,8 @@ class Escena
         animaciones_activas   = false,      // representa el uso de animaciones
         obj_actual_jerarquico = false,      // representa si el objeto actual es el objJer
 		luz_activa			  = false,		// representa si la luz esta activa
-		obj_textura			  = false;		// representa si se esta usando un objeto con textura
+		obj_textura			  = false,		// representa si se esta usando un objeto con textura
+		obj_estrella		  = false;		// representa si se esta usando el objeto estrella
 
    EstadoRaton estadoRaton;         // representa el estado del raton
    GLfloat x_ant, y_ant;
@@ -66,6 +63,7 @@ class Escena
 			 NUM_SKYBOX	    = 8,	// representa el numero asignado al skybox
 			 NUM_CUADRO		= 9,	// representa el numero asignado al cuadro
 			 NUM_CHESSBOARD = 10,	// representa el numero asignado al chessboard
+			 NUM_ESTRELLA   = 11,	// representa el numero asignado a la estrella
 			 NUM_MATERIALES = 4,	// representa el numero de materiales
 			 INCR_ANG_LUZ   = 15;	// representa el incremento del angulo de rotacion de la luz
 
@@ -128,12 +126,33 @@ class Escena
     // boton derecho + movimiento           -> rota la camara
     void ratonMovido(int x, int y);
 
+	// establece que se ha pulsado la tecla derecha del raton para mover la camara
     void setRatonMovimiento();
-    void setRatonNada();
+
+	// establece que se va a hacer zoom para acercar la camara
     void setRatonZoomIn();
+
+	// establece que se va a hacer zoom para alejar la camara
     void setRatonZoomOut();
+
+	// establece que se va a seleccionar con el raton (solo funciona con el
+	// objeto estrella)
+	void setRatonSeleccion();
+
+	// establece los valors de ant_x y ant_y
+	// evita movimientos bruscos de la camara
     void setAntXY(int x, int y);
 
+	// establece que el raton no hace nada (boton distinto al movimiento de rueda,
+	// el boton derecho y el boton izquierdo)
+	void setRatonNada();
+
+	// obtiene el elemento que se ha seleccionado en funcion de las coordenadas (x,y)
+	// de la ventana utilizando el buffer trasero (solo funciona con el objeto estrella)
+	void pickColor(int x, int y);
+
+	// permite realizar un zoom, dependiendo de si es para acercar
+	// o alejar la camara
     void zoom();
 };
 #endif

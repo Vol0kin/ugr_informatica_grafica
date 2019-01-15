@@ -10,6 +10,8 @@ class Camara
                 Observer_angle_x,
                 Observer_angle_y;
         bool camaraOrto;
+
+		// variables para la camara ortogonal
 		GLdouble ortoProjLeft = 0.0,
 				 ortoProjRight = 0.0,
 				 ortoProjBottom = 0.0,
@@ -17,6 +19,7 @@ class Camara
 				 ortoProjNear = 0.0,
 				 ortoProjFar = 0.0;
 
+		// metodo para cambiar la proyeccion ortogonal al hacer zoom
 		void setOrtoProjection();
     public:
         Camara(bool esOrto = false);

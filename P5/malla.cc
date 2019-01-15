@@ -450,6 +450,12 @@ void Esfera::calcular_normales() {
    }
 }
 
+// *****************************************************************************
+//
+// Clase Piramide (practica 5)
+//
+// *****************************************************************************
+
 Piramide::Piramide()
 {
 	vertices = { {0.5, 0.0, 0.5}, {-0.5, 0.0, 0.5},
@@ -460,46 +466,208 @@ Piramide::Piramide()
 				   {1, 2, 3}, {1, 3, 0} };
 }
 
-Estrella::Estrella()
+// *****************************************************************************
+//
+// Clase Estrella (practica 5)
+//
+// *****************************************************************************
+
+Estrella::Estrella() : colorNormal(0.6, 0.8, 1.0), colorSeleccion(0.0, 1.0, 0.6)
 {
-	piramide1 = new Piramide();
-	piramide2 = new Piramide();
-	piramide3 = new Piramide();
-	piramide4 = new Piramide();
-	piramide5 = new Piramide();
-	piramide6 = new Piramide();
+	piramides.resize(NUM_PIRAMIDES);
+	colores.resize(NUM_PIRAMIDES);
+	selectedPiramide.resize(NUM_PIRAMIDES);
+
+	for (int i = 0; i < NUM_PIRAMIDES; i++)
+	{
+		piramides[i] = new Piramide();
+		colores[i] = colorNormal;
+		selectedPiramide[i] = false;
+	}
+
 }
 
-void Estrella::draw(ModoVis modo_visualiz, bool modo_diferido)
+void Estrella::drawContorno() const
 {
+	glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+	glColor3f(0.0, 0.0, 0.0);
+
 	glPushMatrix();
 		glPushMatrix();
-			piramide1->draw(modo_visualiz, modo_diferido);
+			piramides[0]->draw(relleno, false);
 		glPopMatrix();
 
 		glPushMatrix();
 			glRotatef(90.0, 0.0, 0.0, 1.0);
-			piramide2->draw(modo_visualiz, modo_diferido);
+			piramides[1]->draw(relleno, false);
 		glPopMatrix();
 
 		glPushMatrix();
 			glRotatef(180.0, 0.0, 0.0, 1.0);
-			piramide3->draw(modo_visualiz, modo_diferido);
+			piramides[2]->draw(relleno, false);
 		glPopMatrix();
 
 		glPushMatrix();
 			glRotatef(-90.0, 0.0, 0.0, 1.0);
-			piramide4->draw(modo_visualiz, modo_diferido);
+			piramides[3]->draw(relleno, false);
 		glPopMatrix();
 
 		glPushMatrix();
 			glRotatef(90.0, 1.0, 0.0, 0.0);
-			piramide5->draw(modo_visualiz, modo_diferido);
+			piramides[4]->draw(relleno, false);
 		glPopMatrix();
 
 		glPushMatrix();
 			glRotatef(-90.0, 1.0, 0.0, 0.0);
-			piramide6->draw(modo_visualiz, modo_diferido);
+			piramides[5]->draw(relleno, false);
 		glPopMatrix();
 	glPopMatrix();
+}
+
+void Estrella::drawRelleno() const
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+
+	glPushMatrix();
+		glPushMatrix();
+			glColor3f(colores[0](X), colores[0](Y), colores[0](Z));
+			piramides[0]->draw(relleno, false);
+		glPopMatrix();
+
+		glPushMatrix();
+			glColor3f(colores[1](X), colores[1](Y), colores[1](Z));
+			glRotatef(90.0, 0.0, 0.0, 1.0);
+			piramides[1]->draw(relleno, false);
+		glPopMatrix();
+
+		glPushMatrix();
+			glColor3f(colores[2](X), colores[2](Y), colores[2](Z));
+			glRotatef(180.0, 0.0, 0.0, 1.0);
+			piramides[2]->draw(relleno, false);
+		glPopMatrix();
+
+		glPushMatrix();
+			glColor3f(colores[3](X), colores[3](Y), colores[3](Z));
+			glRotatef(-90.0, 0.0, 0.0, 1.0);
+			piramides[3]->draw(relleno, false);
+		glPopMatrix();
+
+		glPushMatrix();
+			glColor3f(colores[4](X), colores[4](Y), colores[4](Z));
+			glRotatef(90.0, 1.0, 0.0, 0.0);
+			piramides[4]->draw(relleno, false);
+		glPopMatrix();
+
+		glPushMatrix();
+			glColor3f(colores[5](X), colores[5](Y), colores[5](Z));
+			glRotatef(-90.0, 1.0, 0.0, 0.0);
+			piramides[5]->draw(relleno, false);
+		glPopMatrix();
+	glPopMatrix();
+}
+
+void Estrella::draw() const
+{
+	drawRelleno();
+	drawContorno();
+}
+
+void Estrella::drawBackBuffer() const
+{
+	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+	int inc = 0;
+
+	glPushMatrix();
+		glPushMatrix();
+			glColor3ub(100, 100, 100);
+			piramides[0]->draw(relleno, false);
+		glPopMatrix();
+
+		inc += 20;
+
+		glPushMatrix();
+			glColor3ub(100 + inc, 100 + inc, 100 + inc);
+			glRotatef(90.0, 0.0, 0.0, 1.0);
+			piramides[1]->draw(relleno, false);
+		glPopMatrix();
+
+		inc += 20;
+
+		glPushMatrix();
+			glColor3ub(100 + inc, 100 + inc, 100 + inc);
+			glRotatef(180.0, 0.0, 0.0, 1.0);
+			piramides[2]->draw(relleno, false);
+		glPopMatrix();
+
+		inc += 20;
+
+		glPushMatrix();
+			glColor3ub(100 + inc, 100 + inc, 100 + inc);
+			glRotatef(-90.0, 0.0, 0.0, 1.0);
+			piramides[3]->draw(relleno, false);
+		glPopMatrix();
+
+		inc += 20;
+
+		glPushMatrix();
+			glColor3ub(100 + inc, 100 + inc, 100 + inc);
+			glRotatef(90.0, 1.0, 0.0, 0.0);
+			piramides[4]->draw(relleno, false);
+		glPopMatrix();
+
+		inc += 20;
+
+		glPushMatrix();
+			glColor3ub(100 + inc, 100 + inc, 100 + inc);
+			glRotatef(-90.0, 1.0, 0.0, 0.0);
+			piramides[5]->draw(relleno, false);
+		glPopMatrix();
+	glPopMatrix();
+}
+
+void Estrella::seleccionarPiramide(unsigned char pixel[3])
+{
+	int numPiramide = -1;
+
+	switch(pixel[0])
+	{
+		case 100:
+			numPiramide = 0;
+			break;
+		case 120:
+			numPiramide = 1;
+			break;
+		case 140:
+			numPiramide = 2;
+			break;
+		case 160:
+			numPiramide = 3;
+			break;
+		case 180:
+			numPiramide = 4;
+			break;
+		case 200:
+			numPiramide = 5;
+			break;
+	}
+
+	if (numPiramide != -1)
+	{
+		std::cout << "Seleccionada piramide " << numPiramide
+				  << " de la estrella"<< std::endl;
+
+		selectedPiramide[numPiramide] = !selectedPiramide[numPiramide];
+
+		if (selectedPiramide[numPiramide])
+			setColorPiramide(numPiramide, colorSeleccion);
+		else
+			setColorPiramide(numPiramide, colorNormal);
+	}
+}
+
+void Estrella::setColorPiramide(int piramide, Tupla3f color)
+{
+	colores[piramide](X) = color(X);
+	colores[piramide](Y) = color(Y);
+	colores[piramide](Z) = color(Z);
 }

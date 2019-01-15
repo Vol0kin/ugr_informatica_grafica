@@ -17,13 +17,8 @@ Escena::Escena()
 
     estadoRaton = NADA;
 
-
-    Observer_distance = 2.0;
-
     x_ant = 0.0;
     y_ant = 0.0;
-    Observer_angle_x  = 0.0 ;
-    Observer_angle_y  = 0.0 ;
 
     ejes.changeAxisSize( 5000 );
 
@@ -40,8 +35,9 @@ Escena::Escena()
 	skybox = new SkyBox("./img/skybox2.jpg");
 	cuadro = new Cuadro("./img/cuadro.jpg");
 	chessboard = new ChessBoard("./img/diamond_ore.png");
+	estrella = new Estrella();
 
-    num_objetos = 11; // se usa al pulsar la tecla 'O' (rotar objeto actual)
+    num_objetos = 12; // se usa al pulsar la tecla 'O' (rotar objeto actual)
 
     // creacion de las camaras
     num_camaras = 2;
@@ -86,7 +82,7 @@ void Escena::dibujar_objeto_actual()
    glDisable(GL_CULL_FACE);
 
 	// Se comprueba si se usan texturas
-	if (!obj_textura) {
+	if (!obj_textura && !obj_estrella) {
 		switch(modo_actual) {
 	       case 0:
 	         glColor3f(0.0, 0.0, 0.0);
@@ -184,6 +180,9 @@ void Escena::dibujar_objeto_actual()
 	  case 10:
 		  if (chessboard != nullptr) chessboard->draw();
 		  break;
+	  case 11:
+	  	  if ( estrella != nullptr ) estrella->draw();
+	  	  break ;
       default:
          cout << "draw_object: el número de objeto actual (" << objeto_actual << ") es incorrecto." << endl ;
          break ;
@@ -211,6 +210,17 @@ void Escena::dibujar()
 	change_observer();
 	ejes.draw();
 	dibujar_objeto_actual();
+
+	// si el objeto actual es el objeto estrella, se dibuja
+	// el buffer trasero
+	if (objeto_actual == NUM_ESTRELLA)
+	{
+		glDrawBuffer(GL_BACK);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		change_observer();
+		estrella->drawBackBuffer();
+		glDrawBuffer(GL_FRONT);
+	}
 }
 
 //**************************************************************************
@@ -238,15 +248,24 @@ bool Escena::teclaPulsada( unsigned char tecla, int x, int y )
          cout << "objeto actual == " << objeto_actual << endl ;
 
 		 // modificar variables booleanas segun el objeto
-         if (objeto_actual == NUM_OBJJER) {
+         if (objeto_actual == NUM_OBJJER)
+		 {
             obj_actual_jerarquico = true;
-		 } else if (objeto_actual == NUM_SKYBOX ||
-			 		objeto_actual == NUM_CUADRO ||
-					objeto_actual == NUM_CHESSBOARD) {
+		 }
+		 else if (objeto_actual == NUM_SKYBOX ||
+			 	  objeto_actual == NUM_CUADRO ||
+				  objeto_actual == NUM_CHESSBOARD) {
 		 	obj_textura = true;
-		 } else {
+		 }
+		 else if (objeto_actual == NUM_ESTRELLA)
+		 {
+			 obj_estrella = true;
+		 }
+		 else
+		 {
 			 obj_actual_jerarquico = false;
 			 obj_textura = false;
+			 obj_estrella = false;
 		 }
 
          break ;
@@ -423,11 +442,6 @@ void Escena::setRatonMovimiento()
     estadoRaton = MOVIENDO_CAMARA_FIRSTPERSON;
 }
 
-void Escena::setRatonNada()
-{
-    estadoRaton = NADA;
-}
-
 void Escena::setRatonZoomIn()
 {
     estadoRaton = ZOOM_IN;
@@ -436,6 +450,16 @@ void Escena::setRatonZoomIn()
 void Escena::setRatonZoomOut()
 {
     estadoRaton = ZOOM_OUT;
+}
+
+void Escena::setRatonSeleccion()
+{
+	estadoRaton = SELECCIONAR_OBJETO;
+}
+
+void Escena::setRatonNada()
+{
+	estadoRaton = NADA;
 }
 
 void Escena::zoom()
@@ -454,4 +478,23 @@ void Escena::setAntXY(int x, int y)
 {
     x_ant = x;
     y_ant = y;
+}
+
+void Escena::pickColor(int x, int y)
+{
+	unsigned char pixelLeido[3];
+	GLint viewport[4];
+
+
+	std::cout << "seleccionadas coordenadas (" << x << ", " << y  << ")"
+			  << std::endl;
+
+	glGetIntegerv(GL_VIEWPORT, viewport);
+	glReadBuffer(GL_BACK);
+	glReadPixels(x, viewport[3] - y, 1, 1, GL_RGB, GL_UNSIGNED_BYTE,
+				 (GLubyte *) &pixelLeido[0]);
+
+	estrella->seleccionarPiramide(pixelLeido);
+
+	glutPostRedisplay();
 }

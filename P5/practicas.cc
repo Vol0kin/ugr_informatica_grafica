@@ -26,9 +26,11 @@ Escena *escena = nullptr ;
 
 void draw_scene(void)
 {
+	glDrawBuffer(GL_FRONT);
 	if ( escena != nullptr )
       escena->dibujar();
-	glutSwapBuffers();
+	//glutSwapBuffers();
+	glFlush();
 }
 
 //***************************************************************************
@@ -103,7 +105,6 @@ void funcion_desocupado() {
 
 void ratonMovido(int x, int y)
 {
-	std::cout << "he movido el raton " << x << ' ' << y << std::endl;
 	if (escena != NULL)
 		escena->ratonMovido(x, y);
 
@@ -114,23 +115,45 @@ void clickRaton(int boton, int estado, int x, int y)
 {
 	if (boton == GLUT_RIGHT_BUTTON && estado == GLUT_DOWN)
 	{
-		std::cout << "he pulsado el boton derecho" << std::endl;
+		std::cout << "pulsado el boton derecho" << std::endl;
 		if (escena != NULL)
+		{
 			escena->setRatonMovimiento();
-		escena->setAntXY(x, y);
+			escena->setAntXY(x, y);
+		}
+	}
+	else if (boton == GLUT_LEFT_BUTTON && estado == GLUT_DOWN)
+	{
+		std::cout << "pulsado el boton izquierdo" << std::endl;
+		if (escena != NULL)
+		{
+			escena->setRatonSeleccion();
+			escena->pickColor(x, y);
+		}
 	}
 	else if (boton == 3)
 	{
-		escena->setRatonZoomIn();
-		escena->zoom();
+		std::cout << "movida rueda hacia adelante" << std::endl;
+		if (escena != NULL)
+		{
+			escena->setRatonZoomIn();
+			escena->zoom();
+		}
 	}
 	else if (boton == 4)
 	{
-		escena->setRatonZoomOut();
-		escena->zoom();
+		std::cout << "movida rueda hacia atras" << std::endl;
+		if (escena != NULL)
+		{
+			escena->setRatonZoomOut();
+			escena->zoom();
+		}
 	}
 	else
-		escena->setRatonNada();
+	{
+		if (escena != NULL)
+			escena->setRatonNada();
+	}
 
 	glutPostRedisplay();
 }

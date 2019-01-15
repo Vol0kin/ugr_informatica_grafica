@@ -171,15 +171,34 @@ class Piramide : public ObjMallaIndexada
 class Estrella : public ObjMallaIndexada
 {
 	private:
-		Piramide * piramide1,
-				 * piramide2,
-				 * piramide3,
-				 * piramide4,
-				 * piramide5,
-				 * piramide6;
+		const int NUM_PIRAMIDES = 6;		// numero de piramides que componen la estrella
+		const Tupla3f colorNormal,			// color normal de la piramide
+					  colorSeleccion;		// color de la piramide seleccionada
+		std::vector<Piramide *> piramides;	// vector de piramides
+		std::vector<Tupla3f> colores;		// vector de colores para cada piramide
+		std::vector<bool> selectedPiramide;	// vector que indica si se ha seleccionado o no una piramide
+
+		// metodo para establecer el color de una piramide seleccionada
+		void setColorPiramide(int piramide, Tupla3f color);
+
+		// metodo que permite dibujar el contorno de la estrella (lineas)
+		void drawContorno() const;
+
+		// metodo que permite dibujar el relleno de la estrella (fill)
+		void drawRelleno() const;
+
 	public:
 		Estrella();
-		void draw(ModoVis modo_visualiz, bool modo_diferido);
+
+		// metodo que permite dibujar la estrella (contorno + relleno)
+		void draw() const;
+
+		// metodo para dibujar el buffer trasero de la estrella
+		void drawBackBuffer() const;
+
+		// metodo para seleccionar una piramide a partir del color seleccionado
+		// en el buffer trasero
+		void seleccionarPiramide(unsigned char pixel[3]);
 };
 
 #endif
