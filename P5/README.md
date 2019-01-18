@@ -44,6 +44,7 @@ Los modos de dibujo no estan disponibles para los objetos:
 Estos objetos tienen un modo de dibujo fijo y al modificarlo con la tecla correspondiente no sucede nada.
 
 | Numero | Modo |
+| ------ | ---- |
 | 0 | Lineas |
 | 1 | Puntos |
 | 2 | Relleno |
@@ -54,6 +55,7 @@ Estos objetos tienen un modo de dibujo fijo y al modificarlo con la tecla corres
 ## Teclas utilizadas
 
 | Tecla | Accion |
+| ----- | ------ |
 | q | Salir |
 | o | Cambiar de objeto |
 | m | Cambiar de modo |
